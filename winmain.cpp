@@ -6,51 +6,57 @@
 //例:PageA→0、PageB→1、PageC→2
 enum
 {
-	PageA,
-	PageB,
-	PageC,
-	PageD,
-	PageE,
-	PageF,
-	PageG,
-	PageH,
-	PageI,
-	PageI2,
-	PageJ,
-	PageK,
-	PageL,
-	PageM,
-	PageM2,
-	PageN,
-	PageO,
-	PageO2,
-	PageP,
-	PageQ,
-	PageR,
-	PageS,
-	PageEND
+	PageTITLE,
+	PageEXPLAIN_1,
+	PageEXPLAIN_2,
+	PageEXPLAIN_3,
+	PageQ,//問題
+	PageA,//正解or不正解
+	PageTIPS,//問題の解説（次のページでPageQに戻る）
+	PageNULL,//繰り返しに必要なのりしろページ
+	Page_RESULT,//結果発表～！
+	PageEND//終了～！
 };
 //授業始まるってよ。
 //
 //
 
-//立木先生画像用の変数（箱）を用意
-int Tachiki_Graphic;//画像を入れておく変数
+//問題の構造体
+struct QU
+{
+	//問題文
+	int sentence;
+	//問題のイメージ画像の変数
+	int Image_Graphic;//10枚まで入れられる
+	//選択肢
+	int choices[4];
+};
+const int Question_No = 100;
+QU Question[Question_No];
 
-//柴田先生画像用の変数（箱）を用意
-int Shibata_Graphic;//画像を入れておく変数
+void init() 
+{
+	for (int a = 0; a < Question_No; a++) {
+		Question[a] = { 0,0,0,0,0,0 };
+	}
+}
 
-//山田先生画像用の変数（箱）を用意
-int Yamada_Graphic;//画像を入れておく変数
+void shuffle()
+{
+	for (int i = 0; i < Question_No; i++)
+	{
+		int r = rand() % 52;
+		int temp = deck[r];
+		deck[r] = deck[i];
+		deck[i] = temp;
+	}
+}
 
-//佐久間先生画像用の変数（箱）を用意
-int Sakuma_Graphic;//画像を入れておく変数
+//正解画像の変数
+int Correct_Graphic;
 
-//植田先生画像用の変数（箱）を用意
-int Ueda_Graphic;//画像を入れておく変数
-
-//千野先生画像用の変数（箱）を用意
-int Chino_Graphic;//画像を入れておく変数
+//不正解画像の変数
+int Incorrect_Graphic;
 
 //背景画像用の変数（箱）を用意
 int Back_Graphic;//画像を入れておく変数				  
@@ -86,12 +92,10 @@ int SelectStop;
 //最初に1回呼ばれる処理
 void Start()
 {
-	Tachiki_Graphic = LoadGraph("tachiki.png");//立木先生画像を変数に読み込む
-	Shibata_Graphic = LoadGraph("shibata.png");//柴田先生画像を変数に読み込む
-	Yamada_Graphic = LoadGraph("yamada.png");//山田先生画像を変数に読み込む
-	Sakuma_Graphic = LoadGraph("sakuma.png");//佐久間先生画像を変数に読み込む
-	Ueda_Graphic = LoadGraph("ueda.png");//植田先生画像を変数に読み込む
-	Chino_Graphic = LoadGraph("chino.png");//千野先生画像を変数に読み込む
+	for (int i = 0; i < 10; i++)
+	{
+
+	}
 	Back_Graphic = LoadGraph("itc2.jpg");//学校画像を変数に読み込む
 	Title_Graphic = LoadGraph("title.jpg");//タイトル画像を変数に読み込む
 	End_Graphic = LoadGraph("end.png");//タイトル画像を変数に読み込む
