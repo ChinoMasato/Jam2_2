@@ -88,7 +88,7 @@ int NameColor;
 int TextColor;
 
 //異なるフォントを使いたいときに必要
-int FontHandle[5];
+//int FontHandle[5];
 
 //何番目の選択肢をさしているか
 char Select = 'A';
@@ -96,16 +96,21 @@ int SelectStop;
 
 int i = 0;
 
-int count = 0;
+int update_count = 0;
 //一度だけ実行したい処理に使う（0のときはオフ→実行する）
 int countstop = 0;
 int one_second = 144;
 
 int select_time = 10;
-int explain_time = 0;
 
 //問題文を段落ごとに時間差で描画するときに使う
 int draw_time = 0;
+
+int score = 0;
+int combo = 0;
+
+//正解しているか
+bool correct = true;
 
 void init()
 {
@@ -156,31 +161,54 @@ void draw()
 		{
 			count_question++;
 		}
+		if (Page == PageA && correct == true)
+		{
+			score += 15 + combo * 5 + select_time * 2;
+			combo++;
+		}
+		countstop = 1;
 	}
-	if (count % one_second == 0)
+	if (update_count % one_second == 0)
 	{
 		draw_time++;
 	}
+
+	DrawFormatString(450, 10, TextColor, "スコア %d 点", score);
+	DrawFormatString(450, 10, TextColor, "制限時間 %d 秒", select_time);
+
 	//ゲーム説明
 	if (Page == PageEXPLAIN)
 	{
 		if (draw_time >= 0)
 		{
-			DrawStringToHandle(300, 10, "千葉県クイズ！", count_question, TextColor, FontHandle[1]);
+			DrawFormatString(300, 10, TextColor, "千葉県クイズ！");
+			//DrawStringToHandle(300, 10, "千葉県クイズ！", count_question, TextColor, FontHandle[1]);
 		}
 		if (draw_time >= 3)
 		{
-			DrawStringToHandle(300, 70, "これから、千葉県に関するクイズを", TextColor, FontHandle[0]);
-			DrawStringToHandle(300, 105, "10問出題します！", TextColor, FontHandle[0]);
+			DrawFormatString(300, 70, TextColor, "これから、千葉県に関するクイズを");
+			DrawFormatString(300, 105, TextColor, "10問出題します！");
+			//DrawStringToHandle(300, 70, "これから、千葉県に関するクイズを", TextColor, FontHandle[0]);
+			//DrawStringToHandle(300, 105, "10問出題します！", TextColor, FontHandle[0]);
 		}
 		if (draw_time >= 6)
 		{
-			DrawStringToHandle(300, 140, "連続で正解したり、素早く答えて正解すると", TextColor, FontHandle[0]);
-			DrawStringToHandle(300, 175, "スコアが大きく増えます！", TextColor, FontHandle[0]);
+			DrawFormatString(300, 140, TextColor, "連続で正解したり、素早く答えて正解すると");
+			DrawFormatString(300, 175, TextColor, "スコアが大きく増えます！");
+			//DrawStringToHandle(300, 140, "連続で正解したり、素早く答えて正解すると", TextColor, FontHandle[0]);
+			//DrawStringToHandle(300, 175, "スコアが大きく増えます！", TextColor, FontHandle[0]);
 		}
 		if (draw_time >= 9)
 		{
-			DrawStringToHandle(300, 210, "めざせ！ハイスコア！", TextColor, FontHandle[0]);
+			DrawFormatString(300, 210, TextColor, "なお、制限時間内に解答しなかった場合");
+			DrawFormatString(300, 245, TextColor, "最後まで選択していたものが解答になります");
+			//DrawStringToHandle(300, 210, "なお、制限時間内に解答しなかった場合", TextColor, FontHandle[0]);
+			//DrawStringToHandle(300, 245, "最後まで選択していたものが解答になります", TextColor, FontHandle[0]);
+		}
+		if (draw_time >= 12)
+		{
+			DrawFormatString(300, 245, TextColor, "めざせ！ハイスコア！");
+			//DrawStringToHandle(300, 280, "めざせ！ハイスコア！", TextColor, FontHandle[0]);
 		}
 	}
 	//問題文を描画する
@@ -199,8 +227,29 @@ void draw()
 			DrawFormatString(300, 80, TextColor, "%s", Question[i].sentence[0]);
 		}
 		//選択肢表示
-		if (draw_time >= 9)
+		if (draw_time >= 9 && select_time > 0)
 		{
+			if (update_count % one_second == 0)
+			{
+				select_time--;
+			}
+			//カーソルを描画
+			if (Select == 'A')
+			{
+				DrawFormatString(60, 260, TextColor, "⇒");
+			}
+			if (Select == 'B')
+			{
+				DrawFormatString(310, 260, TextColor, "⇒");
+			}
+			if (Select == 'C')
+			{
+				DrawFormatString(60, 480, TextColor, "⇒");
+			}
+			if (Select == 'D')
+			{
+				DrawFormatString(310, 480, TextColor, "⇒");
+			}
 			//Aの選択肢
 			DrawFormatString(110, 260, TextColor, "%s", Question[i].choices[0]);
 			//Bの選択肢
@@ -210,44 +259,47 @@ void draw()
 			//Dの選択肢
 			DrawFormatString(360, 480, TextColor, "%s", Question[i].choices[3]);
 		}
+		if (select_time <= 0)
+		{
+			select_time = 10;
+			Page++;
+		}
 	}
 	//正解か、不正解かを表示
 	if (Page == PageA)
 	{
-		if (Question[i].num == 0)
+		if (Select == Question[i].answer)
 		{
-			if (Select == Question[i].answer)
-			{
-				DrawStringToHandle(300, 10, "正解！", TextColor, FontHandle[1]);
-				//DrawFormatString(300, 10, TextColor, "正解！");
-			}
-			else {
-				DrawStringToHandle(300, 10, "不正解！", TextColor, FontHandle[1]);
-				//DrawFormatString(300, 10, TextColor, "不正解！");
-			}
+			correct = true;
+			//DrawStringToHandle(300, 10, "正解！", TextColor, FontHandle[1]);
+			DrawFormatString(300, 10, TextColor, "正解！");
+		}
+		else {
+			correct = false;
+			combo = 0;
+			//DrawStringToHandle(300, 10, "不正解！", TextColor, FontHandle[1]);
+			DrawFormatString(300, 10, TextColor, "不正解！");
 		}
 	}
 	//解説を表示
 	if (Page == PageTIPS)
 	{
+		//DrawStringToHandle(300, 10, "正解は", TextColor, FontHandle[0]);
+		DrawFormatString(300, 10, TextColor, "正解は");
 		if (Question[i].num == 0)
 		{
-			DrawStringToHandle(300, 10, "正解は", TextColor, FontHandle[0]);
-			//DrawFormatString(300, 10, TextColor, "正解は");
-			DrawStringToHandle(300, 45, "B：落花生", TextColor, FontHandle[1]);
-			//DrawFormatString(300, 40, TextColor, "B：落花生");
-			DrawFormatString(300, 70, TextColor, "%s", Question[i].tips[0]);
+			//DrawStringToHandle(300, 45, "B：落花生", TextColor, FontHandle[1]);
+			DrawFormatString(300, 45, TextColor, "B：落花生");
 		}
+		DrawFormatString(300, 70, TextColor, "%s", Question[i].tips[0]);
 	}
+	//問題のイメージ画像を描画
+	DrawGraph(0, 0, Question[i].Image_Graphic, true);
 }
 
 void timer()
 {
-	count++;
-	if (count % one_second == 0) //144で1秒？(学校のPCの場合)
-	{
-		select_time--;
-	}
+	update_count++;
 }
 
 //最初に1回呼ばれる処理
@@ -259,11 +311,11 @@ void Start()
 	shuffle();
 
 	//フォント0、25ピクセル
-	FontHandle[0] = CreateFontToHandle(NULL, 25, 3);
+	//FontHandle[0] = CreateFontToHandle(NULL, 25, 3);
 	//フォント1、40ピクセル
-	FontHandle[1] = CreateFontToHandle(NULL, 40, 3);
+	//FontHandle[1] = CreateFontToHandle(NULL, 40, 3);
 
-	Back_Graphic = LoadGraph("back_test_02.png");//学校画像を変数に読み込む
+	Back_Graphic = LoadGraph("back_test_02.jpg");//学校画像を変数に読み込む
 	Title_Graphic = LoadGraph("title.jpg");//タイトル画像を変数に読み込む
 	End_Graphic = LoadGraph("end.png");//タイトル画像を変数に読み込む
 	Message_Graphic = LoadGraph("message_window_test.png");//メッセージウィンドウ用画像を変数に読み込む
@@ -286,6 +338,7 @@ void Start()
 void Update()
 {
 	timer();
+	DrawFormatString(450, 100, TextColor, "カウント %d", update_count);
 
 	//キーを押してページをめくる処理
 	//エンターキー(KEY_INPUT_RETURN)が押されたらページを進める
@@ -365,8 +418,9 @@ void Update()
 		//Stopを解除
 		Stop = 0;
 	}
-	//下キーも上キーも押されていなければ連続キー入力停止処理を解除
-	if (CheckHitKey(KEY_INPUT_DOWN) == 0 && CheckHitKey(KEY_INPUT_UP) == 0)
+	//下キーも上キーも右キーも左キーも押されていなければ連続キー入力停止処理を解除
+	if (CheckHitKey(KEY_INPUT_DOWN) == 0 && CheckHitKey(KEY_INPUT_UP) == 0
+		&& CheckHitKey(KEY_INPUT_RIGHT) == 0 && CheckHitKey(KEY_INPUT_LEFT) == 0)
 	{
 		//Stopを解除
 		SelectStop = 0;
@@ -395,7 +449,8 @@ void Update()
 		DrawGraph(0, 0, Title_Graphic, true);
 
 		if (BlinkCounter / 20 % 2 == 0) {
-			DrawStringToHandle(300, 10, "PUSH ENTER", TextColor, FontHandle[0]);
+			DrawFormatString(300, 300, TextColor, "PUSH ENTER");
+			//DrawStringToHandle(300, 10, "PUSH ENTER", TextColor, FontHandle[0]);
 		}
 		BlinkCounter = BlinkCounter + 1;
 	}
@@ -407,7 +462,7 @@ void Update()
 		DrawGraph(0, 0, Back_Graphic, true);
 
 		//画面にメッセ―ジウィンドウを描画します
-		DrawGraph(0, 360, Message_Graphic, true);
+		//DrawGraph(0, 360, Message_Graphic, true);
 		//メッセージウィンドウにテキストを表示する
 		draw();
 	}
@@ -417,9 +472,8 @@ void Update()
 	{
 		// 画面に背景を描画します。
 		DrawGraph(0, 0, Back_Graphic, true);
-
 		//画面にメッセ―ジウィンドウを描画します
-		DrawGraph(0, 360, Message_Graphic, true);
+		//DrawGraph(0, 360, Message_Graphic, true);
 		//メッセージウィンドウにテキストを表示する
 		draw();
 	}
@@ -429,9 +483,8 @@ void Update()
 	{
 		// 画面に背景を描画します。
 		DrawGraph(0, 0, Back_Graphic, true);
-
 		//画面にメッセ―ジウィンドウを描画します
-		DrawGraph(0, 360, Message_Graphic, true);
+		//DrawGraph(0, 360, Message_Graphic, true);
 		//メッセージウィンドウにテキストを表示する
 		draw();
 	}
@@ -440,9 +493,8 @@ void Update()
 	{
 		// 画面に背景を描画します。
 		DrawGraph(0, 0, Back_Graphic, true);
-
 		//画面にメッセ―ジウィンドウを描画します
-		DrawGraph(0, 360, Message_Graphic, true);
+		//DrawGraph(0, 360, Message_Graphic, true);
 		//メッセージウィンドウにテキストを表示する
 		draw();
 	}
@@ -452,6 +504,7 @@ void Update()
 	{
 		if (count_question >= Question_No)
 		{
+			countstop = 0;
 			Page++;
 		}
 		else {
@@ -466,7 +519,7 @@ void Update()
 		DrawGraph(0, 0, Back_Graphic, true);
 
 		//画面にメッセ―ジウィンドウを描画します
-		DrawGraph(0, 360, Message_Graphic, true);
+		//DrawGraph(0, 360, Message_Graphic, true);
 		//メッセージウィンドウにテキストを表示する
 		draw();
 	}
