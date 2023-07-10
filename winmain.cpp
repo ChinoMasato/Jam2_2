@@ -1,4 +1,9 @@
 ﻿#include "DxLib.h"
+#include <time.h>
+#include <iostream>
+#include <string>
+
+using namespace std;
 
 //ページ追加の仕方
 //ページの数字の代わりに下記enumにページ名を追加してください
@@ -7,14 +12,12 @@
 enum
 {
 	PageTITLE,
-	PageEXPLAIN_1,
-	PageEXPLAIN_2,
-	PageEXPLAIN_3,
+	PageEXPLAIN,
 	PageQ,//問題
 	PageA,//正解or不正解
 	PageTIPS,//問題の解説（次のページでPageQに戻る）
 	PageNULL,//繰り返しに必要なのりしろページ
-	Page_RESULT,//結果発表～！
+	PageRESULT,//結果発表～！
 	PageEND//終了～！
 };
 //授業始まるってよ。
@@ -24,33 +27,29 @@ enum
 //問題の構造体
 struct QU
 {
-	//問題文
-	int sentence;
+	//問題の通し番号（0番から）
+	int num;
+	//問題文（最大7行）
+	string sentence[7];
 	//問題のイメージ画像の変数
-	int Image_Graphic;//10枚まで入れられる
+	int Image_Graphic;
 	//選択肢
-	int choices[4];
+	string choices[4];
+	//正解
+	char answer;
+	//問題の解説（とりあえず最大3行）
+	string tips[3];
 };
-const int Question_No = 100;
+
+//10問まで問題を代入できる
+const int Question_No = 10;
 QU Question[Question_No];
 
-void init() 
-{
-	for (int a = 0; a < Question_No; a++) {
-		Question[a] = { 0,0,0,0,0,0 };
-	}
-}
+//今何問目？
+int count_question = 0;
 
-void shuffle()
-{
-	for (int i = 0; i < Question_No; i++)
-	{
-		int r = rand() % 52;
-		int temp = deck[r];
-		deck[r] = deck[i];
-		deck[i] = temp;
-	}
-}
+//問題をシャッフルするときに使う
+QU For_Shuffle;
 
 //正解画像の変数
 int Correct_Graphic;
@@ -68,7 +67,10 @@ int Title_Graphic;//画像を入れておく変数
 int End_Graphic;//画像を入れておく変数	
 
 //メッセージウィンドウ画像用の変数（箱）を用意
-int Message_Graphic;//画像を入れておく変数		
+int Message_Graphic;//画像を入れておく変数
+
+//カーソルの画像
+int Select_Graphic;
 
 //ゲームのページ数
 int Page;
@@ -85,28 +87,193 @@ int NameColor;
 //文字の色に使う
 int TextColor;
 
+//異なるフォントを使いたいときに必要
+int FontHandle[5];
+
 //何番目の選択肢をさしているか
-int SelectNo = 0;
+char Select = 'A';
 int SelectStop;
+
+int i = 0;
+
+int count = 0;
+//一度だけ実行したい処理に使う（0のときはオフ→実行する）
+int countstop = 0;
+int one_second = 144;
+
+int select_time = 10;
+int explain_time = 0;
+
+//問題文を段落ごとに時間差で描画するときに使う
+int draw_time = 0;
+
+void init()
+{
+	for (i = 0; i < Question_No; i++) {
+		Question[i].num = { i };
+	}
+	for (i = 0; i < Question_No; i++) {
+		if (Question[i].num == 0)
+		{
+			//問題文
+			Question[i].sentence[0] = { "次のうち、千葉県での生産量が" };
+			Question[i].sentence[1] = { "日本一である野菜・農作物はどれ？" };
+
+			Question[i].Image_Graphic = LoadGraph("");//問題のイメージ画像を変数に読み込む
+
+			//選択肢
+			Question[i].choices[0] = { "A：Apple社" };
+			Question[i].choices[1] = { "B：落花生" };
+			Question[i].choices[2] = { "C：メロン" };
+			Question[i].choices[3] = { "D：すいか" };
+
+			//正解（A、B、C、Dのどれかを入力）
+			Question[i].answer = { 'B'};
+
+			//問題の解説
+			Question[i].tips[0] = { "国内産の落花生の8割は、千葉県で生産されています。" };
+		}
+	}
+}
+
+void shuffle()
+{
+	for (i = 0; i < Question_No; i++)
+	{
+		int r = rand() % Question_No;
+		For_Shuffle = Question[r];
+		Question[r] = Question[i];
+		Question[i] = For_Shuffle;
+	}
+}
+
+void draw()
+{
+	if (countstop == 0)
+	{
+		draw_time = 0;
+		if (Page == PageQ)
+		{
+			count_question++;
+		}
+	}
+	if (count % one_second == 0)
+	{
+		draw_time++;
+	}
+	//ゲーム説明
+	if (Page == PageEXPLAIN)
+	{
+		if (draw_time >= 0)
+		{
+			DrawStringToHandle(300, 10, "千葉県クイズ！", count_question, TextColor, FontHandle[1]);
+		}
+		if (draw_time >= 3)
+		{
+			DrawStringToHandle(300, 70, "これから、千葉県に関するクイズを", TextColor, FontHandle[0]);
+			DrawStringToHandle(300, 105, "10問出題します！", TextColor, FontHandle[0]);
+		}
+		if (draw_time >= 6)
+		{
+			DrawStringToHandle(300, 140, "連続で正解したり、素早く答えて正解すると", TextColor, FontHandle[0]);
+			DrawStringToHandle(300, 175, "スコアが大きく増えます！", TextColor, FontHandle[0]);
+		}
+		if (draw_time >= 9)
+		{
+			DrawStringToHandle(300, 210, "めざせ！ハイスコア！", TextColor, FontHandle[0]);
+		}
+	}
+	//問題文を描画する
+	if (Page == PageQ)
+	{
+		if (draw_time >= 0)
+		{
+			DrawFormatString(300, 10, TextColor, "第 %d 問", count_question);
+		}
+		if (draw_time >= 3)
+		{
+			DrawFormatString(300, 45, TextColor, "%s", Question[i].sentence[0]);
+		}
+		if (draw_time >= 6)
+		{
+			DrawFormatString(300, 80, TextColor, "%s", Question[i].sentence[0]);
+		}
+		//選択肢表示
+		if (draw_time >= 9)
+		{
+			//Aの選択肢
+			DrawFormatString(110, 260, TextColor, "%s", Question[i].choices[0]);
+			//Bの選択肢
+			DrawFormatString(360, 260, TextColor, "%s", Question[i].choices[1]);
+			//Cの選択肢
+			DrawFormatString(110, 480, TextColor, "%s", Question[i].choices[2]);
+			//Dの選択肢
+			DrawFormatString(360, 480, TextColor, "%s", Question[i].choices[3]);
+		}
+	}
+	//正解か、不正解かを表示
+	if (Page == PageA)
+	{
+		if (Question[i].num == 0)
+		{
+			if (Select == Question[i].answer)
+			{
+				DrawStringToHandle(300, 10, "正解！", TextColor, FontHandle[1]);
+				//DrawFormatString(300, 10, TextColor, "正解！");
+			}
+			else {
+				DrawStringToHandle(300, 10, "不正解！", TextColor, FontHandle[1]);
+				//DrawFormatString(300, 10, TextColor, "不正解！");
+			}
+		}
+	}
+	//解説を表示
+	if (Page == PageTIPS)
+	{
+		if (Question[i].num == 0)
+		{
+			DrawStringToHandle(300, 10, "正解は", TextColor, FontHandle[0]);
+			//DrawFormatString(300, 10, TextColor, "正解は");
+			DrawStringToHandle(300, 45, "B：落花生", TextColor, FontHandle[1]);
+			//DrawFormatString(300, 40, TextColor, "B：落花生");
+			DrawFormatString(300, 70, TextColor, "%s", Question[i].tips[0]);
+		}
+	}
+}
+
+void timer()
+{
+	count++;
+	if (count % one_second == 0) //144で1秒？(学校のPCの場合)
+	{
+		select_time--;
+	}
+}
 
 //最初に1回呼ばれる処理
 void Start()
 {
-	for (int i = 0; i < 10; i++)
-	{
+	srand(time(0));
 
-	}
-	Back_Graphic = LoadGraph("itc2.jpg");//学校画像を変数に読み込む
+	init();
+	shuffle();
+
+	//フォント0、25ピクセル
+	FontHandle[0] = CreateFontToHandle(NULL, 25, 3);
+	//フォント1、40ピクセル
+	FontHandle[1] = CreateFontToHandle(NULL, 40, 3);
+
+	Back_Graphic = LoadGraph("back_test_02.png");//学校画像を変数に読み込む
 	Title_Graphic = LoadGraph("title.jpg");//タイトル画像を変数に読み込む
 	End_Graphic = LoadGraph("end.png");//タイトル画像を変数に読み込む
-	Message_Graphic = LoadGraph("frame_message.png");//メッセージウィンドウ用画像を変数に読み込む
+	Message_Graphic = LoadGraph("message_window_test.png");//メッセージウィンドウ用画像を変数に読み込む
 
 	Page = 0;//0ページ目からストーリーを進める
 	Stop = 0;//0は止めない、1は止める
-	SelectNo = 0;
+	Select = 'A';
 	BlinkCounter = 0;
 	// 描画する文字列のサイズを設定
-	SetFontSize(24);
+	SetFontSize(25);
 
 	NameColor = GetColor(255, 255, 255);//名前は白で書く
 	TextColor = GetColor(0, 0, 0);//文字は黒で書く
@@ -118,6 +285,8 @@ void Start()
 //毎フレーム呼ばれる処理
 void Update()
 {
+	timer();
+
 	//キーを押してページをめくる処理
 	//エンターキー(KEY_INPUT_RETURN)が押されたらページを進める
 	if (CheckHitKey(KEY_INPUT_RETURN) == 1 && Stop == 0)
@@ -125,7 +294,7 @@ void Update()
 		Page = Page + 1;//シナリオを1ページ進める
 		if (Page >= PageEND)
 		{
-			Page = PageA;
+			Page = PageTITLE;
 		}
 		Stop = 1;//キーを押し続けた時に連続でページが進まないようにする
 	}
@@ -134,10 +303,13 @@ void Update()
 	if (CheckHitKey(KEY_INPUT_DOWN) == 1
 		&& SelectStop == 0)
 	{
-		SelectNo = SelectNo + 1;
-		if (SelectNo > 2)
+		if (Select == 'A')
 		{
-			SelectNo = 2;
+			Select = 'C';
+		}
+		if (Select == 'B')
+		{
+			Select = 'D';
 		}
 		SelectStop = 1;//連続でカーソルが進まないようにする
 	}
@@ -146,13 +318,47 @@ void Update()
 	if (CheckHitKey(KEY_INPUT_UP) == 1
 		&& SelectStop == 0)
 	{
-		SelectNo = SelectNo - 1;
-		if (SelectNo < 0)
+		if (Select == 'C')
 		{
-			SelectNo = 0;
+			Select = 'A';
+		}
+		if (Select == 'D')
+		{
+			Select = 'B';
 		}
 		SelectStop = 1;//連続でカーソルが進まないようにする
 	}
+
+	//右キーが入力された時に選択肢カーソルを右に動かす（SelectNo変数を1増やす)
+	if (CheckHitKey(KEY_INPUT_RIGHT) == 1
+		&& SelectStop == 0)
+	{
+		if (Select == 'A')
+		{
+			Select = 'B';
+		}
+		if (Select == 'C')
+		{
+			Select = 'D';
+		}
+		SelectStop = 1;//連続でカーソルが進まないようにする
+	}
+
+	//左キーが入力された時に選択肢カーソルを左に動かす（SelectNo変数を1減らす)
+	if (CheckHitKey(KEY_INPUT_LEFT) == 1
+		&& SelectStop == 0)
+	{
+		if (Select == 'B')
+		{
+			Select = 'A';
+		}
+		if (Select == 'D')
+		{
+			Select = 'C';
+		}
+		SelectStop = 1;//連続でカーソルが進まないようにする
+	}
+
 	//エンターキーが押されて居なければストップを解除する
 	if (CheckHitKey(KEY_INPUT_RETURN) == 0)
 	{
@@ -168,284 +374,101 @@ void Update()
 
 	//選択肢判定ページ
 	//ページをジャンプさせる処理
-	if (Page == PageG)
+	/*if (Page == PageQ)
 	{
 		if (SelectNo == 0) {
-			Page = PageH;
+			Page = PageA;
 		}
 		if (SelectNo == 1) {
-			Page = PageL;
+			Page = PageA;
 		}
 		if (SelectNo == 2) {
-			Page = PageO;
+			Page = PageA;
 		}
-	}
-	if (Page == PageI2)
-	{
-		Page = PageF;
-	}
-	if (Page == PageM2) {
-		Page = PageF;
-	}
-	if (Page == PageO2) {
-		Page = PageF;
-	}
-
+	}*/
 
 	//ページごとにゲーム画面を表示する処理
 	//1ページ目の場合の処理
-	if (Page == PageA)
+	if (Page == PageTITLE)
 	{
 		// 画面に背景を描画します。
 		DrawGraph(0, 0, Title_Graphic, true);
 
 		if (BlinkCounter / 20 % 2 == 0) {
-			DrawFormatString(235, 360, TextColor, "PUSH ENTER");
+			DrawStringToHandle(300, 10, "PUSH ENTER", TextColor, FontHandle[0]);
 		}
 		BlinkCounter = BlinkCounter + 1;
 	}
 
 	//1ページ目の場合の処理
-	if (Page == PageB)
+	if (Page == PageEXPLAIN)
 	{
 		// 画面に背景を描画します。
 		DrawGraph(0, 0, Back_Graphic, true);
 
 		//画面にメッセ―ジウィンドウを描画します
 		DrawGraph(0, 360, Message_Graphic, true);
-		//メッセージウィンドウに名前を表示する
-		DrawFormatString(60, 385, NameColor, "？？？？");
 		//メッセージウィンドウにテキストを表示する
-		DrawFormatString(40, 440, TextColor, "ここが、国際理工情報デザイン専門学校か\nどんな先生がいるんだろう\n不安だなぁ…");
-	}
-	//2ページ目の場合の処理
-	if (Page == PageC)
-	{
-		// 画面に背景を描画します。
-		DrawGraph(0, 0, Back_Graphic, true);
-
-		//画面にメッセ―ジウィンドウを描画します
-		DrawGraph(0, 360, Message_Graphic, true);
-		//メッセージウィンドウに名前を表示する
-		DrawFormatString(60, 385, NameColor, "？？？？");
-		//メッセージウィンドウにテキストを表示する
-		DrawFormatString(40, 440, TextColor, "！？\n向こうからやけにテンションが高い人が来た！");
-	}
-	if (Page == PageD) {
-		StopMusic();
-		PlaySoundFile("se.mp3", DX_PLAYTYPE_BACK);
-		PlayMusic("bgm_maoudamashii_neorock83.mp3", DX_PLAYTYPE_LOOP);
-		Page = Page + 1;
+		draw();
 	}
 
 	//4ページ目の場合の処理
-	if (Page == PageE)
-	{
-		// 画面に背景を描画します。
-		DrawGraph(0, 0, Back_Graphic, true);
-		// 画面にキャラを描画します(『DrawGraph』を使用)
-		DrawGraph(200, 10, Tachiki_Graphic, true);
-		//画面にメッセ―ジウィンドウを描画します
-		DrawGraph(0, 360, Message_Graphic, true);
-		//メッセージウィンドウに名前を表示する
-		DrawFormatString(60, 385, NameColor, "立木 健太郎");
-		//メッセージウィンドウにテキストを表示する
-		DrawFormatString(40, 440, TextColor, "イェーイ！マヤサイコー！\nスリーディメンション！！\n３つのＤ！３つのRe！３つのK！\n");
-	}
-
-	//4ページ目の場合の処理
-	if (Page == PageF)
-	{
-		// 画面に背景を描画します。
-		DrawGraph(0, 0, Back_Graphic, true);
-
-		//画面にメッセ―ジウィンドウを描画します
-		DrawGraph(0, 360, Message_Graphic, true);
-		//メッセージウィンドウに名前を表示する
-		DrawFormatString(60, 385, NameColor, "選択してください");
-		//メッセージウィンドウにテキストを表示する
-		DrawFormatString(70, 440, TextColor, "山田先生ルート");
-		DrawFormatString(70, 470, TextColor, "柴田先生ルート");
-		DrawFormatString(70, 500, TextColor, "植田先生ルート");
-		DrawFormatString(40, 440 + 30 * SelectNo, TextColor, "⇒");
-	}
-
-	//5ページ目の処理
-	if (Page == PageH)
-	{
-		// 画面に背景を描画します。
-		DrawGraph(0, 0, Back_Graphic, true);
-		// 画面にキャラを描画します(『DrawGraph』を使用)
-		DrawGraph(200, 10, Yamada_Graphic, true);
-		//画面にメッセ―ジウィンドウを描画します
-		DrawGraph(0, 360, Message_Graphic, true);
-		//メッセージウィンドウに名前を表示する
-		DrawFormatString(60, 385, NameColor, "山田 龍明");
-		//メッセージウィンドウにテキストを表示する
-		DrawFormatString(40, 440, TextColor, "突然だけど21時からAPEXやらない？\n気楽にやろう\n配信もしちゃうよ！\n");
-	}
-	//6ページ目の場合の処理
-	if (Page == PageI)
-	{
-		// 画面に背景を描画します。
-		DrawGraph(0, 0, Back_Graphic, true);
-
-		//画面にメッセ―ジウィンドウを描画します
-		DrawGraph(0, 360, Message_Graphic, true);
-		//メッセージウィンドウに名前を表示する
-		DrawFormatString(60, 385, NameColor, "？？？？");
-		//メッセージウィンドウにテキストを表示する
-		DrawFormatString(40, 440, TextColor, "いきなりゲームに誘ってきた！っていうかまだ午前中\nＰＳ４版ならやったんだけど…");
-	}
-
-	//7ページ目の処理
-	if (Page == PageJ)
-	{
-		// 画面に背景を描画します。
-		DrawGraph(0, 0, Back_Graphic, true);
-		// 画面にキャラを描画します(『DrawGraph』を使用)
-		DrawGraph(200, 10, Sakuma_Graphic, true);
-		//画面にメッセ―ジウィンドウを描画します
-		DrawGraph(0, 360, Message_Graphic, true);
-		//メッセージウィンドウに名前を表示する
-		DrawFormatString(60, 385, NameColor, "佐久間 洋");
-		//メッセージウィンドウにテキストを表示する
-		DrawFormatString(40, 440, TextColor, "私と勝負しよう\n腕相撲、格ゲー、そしてぷよぷよで\n私に勝ったらここを通してあげよう");
-	}
-	//8ページ目の場合の処理
-	if (Page == PageK)
-	{
-		// 画面に背景を描画します。
-		DrawGraph(0, 0, Back_Graphic, true);
-
-		//画面にメッセ―ジウィンドウを描画します
-		DrawGraph(0, 360, Message_Graphic, true);
-		//メッセージウィンドウに名前を表示する
-		DrawFormatString(60, 385, NameColor, "？？？？");
-		//メッセージウィンドウにテキストを表示する
-		DrawFormatString(40, 440, TextColor, "エンターキーを押しただけで通してくれた！\n次はふらっと誰かが来たぞ");
-	}
-
-	//9ページ目の処理
-	if (Page == PageL)
-	{
-		// 画面に背景を描画します。
-		DrawGraph(0, 0, Back_Graphic, true);
-		// 画面にキャラを描画します(『DrawGraph』を使用)
-		DrawGraph(200, 10, Shibata_Graphic, true);
-		//画面にメッセ―ジウィンドウを描画します
-		DrawGraph(0, 360, Message_Graphic, true);
-		//メッセージウィンドウに名前を表示する
-		DrawFormatString(60, 385, NameColor, "柴田 大地");
-		//メッセージウィンドウにテキストを表示する
-		DrawFormatString(40, 440, TextColor, "２次元の世界に行く方法を知っているかい？\nふらっと行けばいいんだよ。\n平面だけにね。ハハハハハ");
-	}
-
-	//10ページ目の処理
-	if (Page == PageM)
-	{
-		// 画面に背景を描画します。
-		DrawGraph(0, 0, Back_Graphic, true);
-
-		//画面にメッセ―ジウィンドウを描画します
-		DrawGraph(0, 360, Message_Graphic, true);
-		//メッセージウィンドウに名前を表示する
-		DrawFormatString(60, 385, NameColor, "？？？？");
-		//メッセージウィンドウにテキストを表示する
-		DrawFormatString(40, 440, TextColor, "２次元ギャグをぶっこんできた！\nこれはこのプログラムの作者に無理やりキャラ付けされたに違いない\n");
-	}
-
-	//11ページ目の処理
-	if (Page == PageN)
-	{
-		// 画面に背景を描画します。
-		DrawGraph(0, 0, Back_Graphic, true);
-		// 画面にキャラを描画します(『DrawGraph』を使用)
-		DrawGraph(200, 10, Chino_Graphic, true);
-		//画面にメッセ―ジウィンドウを描画します
-		DrawGraph(0, 360, Message_Graphic, true);
-		//メッセージウィンドウに名前を表示する
-		DrawFormatString(60, 385, NameColor, "千野 正登");
-		//メッセージウィンドウにテキストを表示する
-		DrawFormatString(40, 440, TextColor, "柴田先生には業務が忙しい中\n画像の透過、縮小処理をしていただきました。\nありがとうございました。");
-	}
-
-	//12ページ目の処理
-	if (Page == PageO)
-	{
-		// 画面に背景を描画します。
-		DrawGraph(0, 0, Back_Graphic, true);
-		// 画面にキャラを描画します(『DrawGraph』を使用)
-		DrawGraph(200, 10, Ueda_Graphic, true);
-		//画面にメッセ―ジウィンドウを描画します
-		DrawGraph(0, 360, Message_Graphic, true);
-		//メッセージウィンドウに名前を表示する
-		DrawFormatString(60, 385, NameColor, "植田 勉");
-		//メッセージウィンドウにテキストを表示する
-		DrawFormatString(40, 440, TextColor, "こんにちは植田です。\n6月の授業から先生達をよろしく！");
-	}
-
-	//13ページ目の場合の処理
-	if (Page == PageP)
-	{
-		// 画面に背景を描画します。
-		DrawGraph(0, 0, Back_Graphic, true);
-
-		//画面にメッセ―ジウィンドウを描画します
-		DrawGraph(0, 360, Message_Graphic, true);
-		//メッセージウィンドウに名前を表示する
-		DrawFormatString(60, 385, NameColor, "？？？？");
-		//メッセージウィンドウにテキストを表示する
-		DrawFormatString(40, 440, TextColor, "今まで現れたやばい人たちが\nこの学校の先生！！？");
-	}
-
-	//14ページ目の処理
 	if (Page == PageQ)
 	{
 		// 画面に背景を描画します。
 		DrawGraph(0, 0, Back_Graphic, true);
-		// 画面にキャラを描画します(『DrawGraph』を使用)
 
-		DrawGraph(0, 10, Chino_Graphic, true);
-		DrawGraph(190, 0, Yamada_Graphic, true);
-		DrawGraph(100, 10, Sakuma_Graphic, true);
-		DrawGraph(420, 10, Shibata_Graphic, true);
-		DrawGraph(500, 10, Ueda_Graphic, true);
-		DrawGraph(300, 10, Tachiki_Graphic, true);
 		//画面にメッセ―ジウィンドウを描画します
 		DrawGraph(0, 360, Message_Graphic, true);
-		//メッセージウィンドウに名前を表示する
-		DrawFormatString(60, 385, NameColor, "？？？？");
 		//メッセージウィンドウにテキストを表示する
-		DrawFormatString(40, 440, TextColor, "やばい先生ばかりだけど、楽しい学校生活が始まりそうな\n\n　　　　　　　　　　　　　予感！！\n");
+		draw();
 	}
 
-	//15ページ目の処理
-	if (Page == PageR)
-	{
-		// 画面に背景を描画します。
-		DrawGraph(0, 0, End_Graphic, true);
-	}
-
-	//16ページ目の処理
-	if (Page == PageS)
+	//5ページ目の処理
+	if (Page == PageA)
 	{
 		// 画面に背景を描画します。
 		DrawGraph(0, 0, Back_Graphic, true);
-		// 画面にキャラを描画します(『DrawGraph』を使用)
 
-		DrawGraph(0, 10, Chino_Graphic, true);
-		DrawGraph(190, 0, Yamada_Graphic, true);
-		DrawGraph(100, 10, Sakuma_Graphic, true);
-		DrawGraph(420, 10, Shibata_Graphic, true);
-		DrawGraph(500, 10, Ueda_Graphic, true);
-		DrawGraph(300, 10, Tachiki_Graphic, true);
 		//画面にメッセ―ジウィンドウを描画します
 		DrawGraph(0, 360, Message_Graphic, true);
-		//メッセージウィンドウに名前を表示する
-		DrawFormatString(60, 385, NameColor, "？？？？");
 		//メッセージウィンドウにテキストを表示する
-		DrawFormatString(40, 440, TextColor, "やばい先生ばかりだけど、楽しい学校生活が始まりそうな\n\n　　　　　　　　　　　　　予感！！\n");
+		draw();
+	}
+	//6ページ目の場合の処理
+	if (Page == PageTIPS)
+	{
+		// 画面に背景を描画します。
+		DrawGraph(0, 0, Back_Graphic, true);
+
+		//画面にメッセ―ジウィンドウを描画します
+		DrawGraph(0, 360, Message_Graphic, true);
+		//メッセージウィンドウにテキストを表示する
+		draw();
+	}
+
+	//7ページ目の処理
+	if (Page == PageNULL)
+	{
+		if (count_question >= Question_No)
+		{
+			Page++;
+		}
+		else {
+			Page = PageQ;
+		}
+	}
+
+	//8ページ目の場合の処理
+	if (Page == PageRESULT)
+	{
+		// 画面に背景を描画します。
+		DrawGraph(0, 0, Back_Graphic, true);
+
+		//画面にメッセ―ジウィンドウを描画します
+		DrawGraph(0, 360, Message_Graphic, true);
+		//メッセージウィンドウにテキストを表示する
+		draw();
 	}
 }
 // プログラムは WinMain から始まります
@@ -471,12 +494,9 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 		ClearDrawScreen();	//裏画面の描画を全て消去
 	}
 
-	DeleteGraph(Tachiki_Graphic);
-	DeleteGraph(Yamada_Graphic);
-	DeleteGraph(Shibata_Graphic);
-	DeleteGraph(Chino_Graphic);
-	DeleteGraph(Sakuma_Graphic);
-	DeleteGraph(Ueda_Graphic);
+	for (i = 0; i < Question_No; i++) {
+		DeleteGraph(Question[i].Image_Graphic);
+	}
 	DeleteGraph(Title_Graphic);
 	DeleteGraph(Back_Graphic);
 	DeleteGraph(Message_Graphic);
