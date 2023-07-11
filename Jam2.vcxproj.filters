@@ -15,5 +15,8 @@
     <ClCompile Include="takekawa.cpp">
       <Filter>ソースファイル</Filter>
     </ClCompile>
+    <ClCompile Include="koide.cpp">
+      <Filter>ソースファイル</Filter>
+    </ClCompile>
   </ItemGroup>
 </Project>
