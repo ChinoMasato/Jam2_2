@@ -45,3 +45,4 @@ if (Question[i].num == 1)
 	//問題の解説
 	Question[i].tips[0] = "證誠寺の「狸囃子伝説」を元とした";
 	Question[i].tips[1] = "「證誠寺の狸囃子」という童謡があります。";
+}

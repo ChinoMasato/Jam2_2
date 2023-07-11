@@ -13,8 +13,8 @@ enum
 {
 	PageTITLE,
 	PageEXPLAIN,
-	PageSYSTEM,//countstopを0にする場所
 	PageQ,//問題
+	PageSYSTEM,//countstopを0にする場所
 	PageA,//正解or不正解
 	PageTIPS,//問題の解説（次のページでPageQに戻る）
 	PageNULL,//繰り返しに必要なのりしろページ
@@ -120,49 +120,53 @@ void init()
 		Question[i].num = { i };
 	}
 	for (i = 0; i < Question_No; i++) {
-		//1問目
+		//1問目　（日本梨）
 		if (Question[i].num == 0)
 		{
 			//問題文
-			Question[i].sentence[0] = "次のうち、千葉県での生産量が";
-			Question[i].sentence[1] =  "日本一である野菜・農作物はどれ？";
+			Question[i].sentence[0] = "千葉県が栽培する日本梨で、";
+			Question[i].sentence[1] = "おおよその収穫時期が";
+			Question[i].sentence[2] = "７月下旬から８月中旬までの";
+			Question[i].sentence[3] = "品種は次のうちどれ？";
 
 			Question[i].Image_Graphic = LoadGraph("");//問題のイメージ画像を変数に読み込む
 
 			//選択肢
-			Question[i].choices[0] = "A：Apple社";
-			Question[i].choices[1] = "B：落花生";
+			Question[i].choices[0] = "A：幸水";
+			Question[i].choices[1] = "B：豊水";
 			Question[i].choices[2] = "C：メロン";
-			Question[i].choices[3] = "D：すいか";
+			Question[i].choices[3] = "D：秋満月";
 
 			//正解（A、B、C、Dのどれかを入力）
-			Question[i].answer = 'B';
+			Question[i].answer = 'A';
 
 			//問題の解説
-			Question[i].tips[0] = "国内産の落花生の8割は、";
-			Question[i].tips[1] = "千葉県で生産されています。";
+			Question[i].tips[0] = "千葉県の日本梨は、";
+			Question[i].tips[1] = "産出額、栽培面積、収穫量が１位です。";
 		}
-		//2問目
+
+		//2問目　（證誠寺）
 		if (Question[i].num == 1)
 		{
 			//問題文
-			Question[i].sentence[0] = "次のうち、千葉県での生産量が";
-			Question[i].sentence[1] = "日本一である野菜・農作物はどれ？";
+			Question[i].sentence[0] = "木更津市の證誠寺に伝わる伝説は、";
+			Question[i].sentence[1] = "「日本三大■伝説」のひとつとして有名。";
+			Question[i].sentence[2] = "■に入る動物は、次のうちどれ？";
 
 			Question[i].Image_Graphic = LoadGraph("");//問題のイメージ画像を変数に読み込む
 
 			//選択肢
-			Question[i].choices[0] = "A：Apple社";
-			Question[i].choices[1] = "B：落花生";
-			Question[i].choices[2] = "C：メロン";
-			Question[i].choices[3] = "D：すいか";
+			Question[i].choices[0] = "A：狐";
+			Question[i].choices[1] = "B：蛇";
+			Question[i].choices[2] = "C：狸";
+			Question[i].choices[3] = "D：人間";
 
 			//正解（A、B、C、Dのどれかを入力）
-			Question[i].answer = 'B';
+			Question[i].answer = 'C';
 
 			//問題の解説
-			Question[i].tips[0] = "国内産の落花生の8割は、";
-			Question[i].tips[1] = "千葉県で生産されています。";
+			Question[i].tips[0] = "證誠寺の「狸囃子伝説」を元とした";
+			Question[i].tips[1] = "「證誠寺の狸囃子」という童謡があります。";
 		}
 		//3問目
 		if (Question[i].num == 2)
@@ -240,13 +244,13 @@ void init()
 			Question[i].Image_Graphic = LoadGraph("");//問題のイメージ画像を変数に読み込む
 
 			//選択肢
-			Question[i].choices[0] = "A：Apple社";
-			Question[i].choices[1] = "B：落花生";
+			Question[i].choices[0] = "A：いちじく";
+			Question[i].choices[1] = "B：ぶり類";
 			Question[i].choices[2] = "C：メロン";
-			Question[i].choices[3] = "D：すいか";
+			Question[i].choices[3] = "D：大根";
 
 			//正解（A、B、C、Dのどれかを入力）
-			Question[i].answer = 'B';
+			Question[i].answer = 'D';
 
 			//問題の解説
 			Question[i].tips[0] = "国内産の落花生の8割は、";
@@ -256,23 +260,23 @@ void init()
 		if (Question[i].num == 6)
 		{
 			//問題文
-			Question[i].sentence[0] = "次のうち、千葉県での生産量が";
-			Question[i].sentence[1] = "日本一である野菜・農作物はどれ？";
+			Question[i].sentence[0] = "";
+			Question[i].sentence[1] = "";
 
 			Question[i].Image_Graphic = LoadGraph("");//問題のイメージ画像を変数に読み込む
 
 			//選択肢
-			Question[i].choices[0] = "A：Apple社";
-			Question[i].choices[1] = "B：落花生";
-			Question[i].choices[2] = "C：メロン";
-			Question[i].choices[3] = "D：すいか";
+			Question[i].choices[0] = "A：";
+			Question[i].choices[1] = "B：";
+			Question[i].choices[2] = "C：";
+			Question[i].choices[3] = "D：";
 
 			//正解（A、B、C、Dのどれかを入力）
-			Question[i].answer = 'B';
+			Question[i].answer = 'C';
 
 			//問題の解説
-			Question[i].tips[0] = "国内産の落花生の8割は、";
-			Question[i].tips[1] = "千葉県で生産されています。";
+			Question[i].tips[0] = "";
+			Question[i].tips[1] = "";
 		}
 		//8問目
 		if (Question[i].num == 7)
@@ -286,7 +290,7 @@ void init()
 			//選択肢
 			Question[i].choices[0] = "A：Apple社";
 			Question[i].choices[1] = "B：落花生";
-			Question[i].choices[2] = "C：メロン";
+			Question[i].choices[2] = "C：ふなっしー";
 			Question[i].choices[3] = "D：すいか";
 
 			//正解（A、B、C、Dのどれかを入力）
@@ -367,7 +371,6 @@ void draw()
 		{
 			before_score = 15 + combo * 5 + select_time * 2;
 			combo++;
-			count_question++;
 		}
 		if (Page == PageTIPS && correct == true)
 		{
@@ -424,8 +427,16 @@ void draw()
 		{
 			DrawFormatString(300, 80, TextColor, "%s", Question[count_question].sentence[1].c_str());
 		}
+		if (draw_time >= 9)
+		{
+			DrawFormatString(300, 115, TextColor, "%s", Question[count_question].sentence[2].c_str());
+		}
+		if (draw_time >= 12)
+		{
+			DrawFormatString(300, 150, TextColor, "%s", Question[count_question].sentence[3].c_str());
+		}
 		//選択肢表示
-		if (draw_time >= 9 && select_time > 0)
+		if (draw_time >= 15 && select_time > 0)
 		{
 			if (update_count % one_second == 0)
 			{
@@ -491,7 +502,43 @@ void draw()
 		DrawFormatString(300, 10, TextColor, "正解は");
 		if (Question[count_question].num == 0)
 		{
+			DrawFormatString(300, 45, TextColor, "A：幸水");
+		}
+		if (Question[count_question].num == 1)
+		{
+			DrawFormatString(300, 45, TextColor, "C：狸");
+		}
+		if (Question[count_question].num == 2)
+		{
+			DrawFormatString(300, 45, TextColor, "");
+		}
+		if (Question[count_question].num == 3)
+		{
+			DrawFormatString(300, 45, TextColor, "");
+		}
+		if (Question[count_question].num == 4)
+		{
+			DrawFormatString(300, 45, TextColor, "");
+		}
+		if (Question[count_question].num == 5)
+		{
+			DrawFormatString(300, 45, TextColor, "D：大根");
+		}
+		if (Question[count_question].num == 6)
+		{
+			DrawFormatString(300, 45, TextColor, "");
+		}
+		if (Question[count_question].num == 7)
+		{
 			DrawFormatString(300, 45, TextColor, "B：落花生");
+		}
+		if (Question[count_question].num == 8)
+		{
+			DrawFormatString(300, 45, TextColor, "");
+		}
+		if (Question[count_question].num == 9)
+		{
+			DrawFormatString(300, 45, TextColor, "");
 		}
 		DrawFormatString(300, 80, TextColor, "%s", Question[count_question].tips[0].c_str());
 		DrawFormatString(300, 115, TextColor, "%s", Question[count_question].tips[1].c_str());
@@ -683,11 +730,6 @@ void Update()
 		//メッセージウィンドウにテキストを表示する
 		draw();
 	}
-	if (Page == PageSYSTEM)
-	{
-		countstop = 0;
-		Page++;
-	}
 	//4ページ目の場合の処理
 	if (Page == PageQ)
 	{
@@ -698,7 +740,11 @@ void Update()
 		//メッセージウィンドウにテキストを表示する
 		draw();
 	}
-
+	if (Page == PageSYSTEM)
+	{
+		countstop = 0;
+		Page++;
+	}
 	//5ページ目の処理
 	if (Page == PageA)
 	{
@@ -726,6 +772,7 @@ void Update()
 		if (count_question < Question_No)
 		{
 			countstop = 0;
+			count_question++;
 			Page = PageQ;
 		}
 		if (count_question >= Question_No)
