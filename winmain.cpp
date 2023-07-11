@@ -141,6 +141,204 @@ void init()
 			Question[i].tips[0] = "国内産の落花生の8割は、";
 			Question[i].tips[1] = "千葉県で生産されています。";
 		}
+		//2問目
+		if (Question[i].num == 1)
+		{
+			//問題文
+			Question[i].sentence[0] = "次のうち、千葉県での生産量が";
+			Question[i].sentence[1] = "日本一である野菜・農作物はどれ？";
+
+			Question[i].Image_Graphic = LoadGraph("");//問題のイメージ画像を変数に読み込む
+
+			//選択肢
+			Question[i].choices[0] = "A：Apple社";
+			Question[i].choices[1] = "B：落花生";
+			Question[i].choices[2] = "C：メロン";
+			Question[i].choices[3] = "D：すいか";
+
+			//正解（A、B、C、Dのどれかを入力）
+			Question[i].answer = 'B';
+
+			//問題の解説
+			Question[i].tips[0] = "国内産の落花生の8割は、";
+			Question[i].tips[1] = "千葉県で生産されています。";
+		}
+		//3問目
+		if (Question[i].num == 2)
+		{
+			//問題文
+			Question[i].sentence[0] = "次のうち、千葉県での生産量が";
+			Question[i].sentence[1] = "日本一である野菜・農作物はどれ？";
+
+			Question[i].Image_Graphic = LoadGraph("");//問題のイメージ画像を変数に読み込む
+
+			//選択肢
+			Question[i].choices[0] = "A：Apple社";
+			Question[i].choices[1] = "B：落花生";
+			Question[i].choices[2] = "C：メロン";
+			Question[i].choices[3] = "D：すいか";
+
+			//正解（A、B、C、Dのどれかを入力）
+			Question[i].answer = 'B';
+
+			//問題の解説
+			Question[i].tips[0] = "国内産の落花生の8割は、";
+			Question[i].tips[1] = "千葉県で生産されています。";
+		}
+		//4問目
+		if (Question[i].num == 3)
+		{
+			//問題文
+			Question[i].sentence[0] = "次のうち、千葉県での生産量が";
+			Question[i].sentence[1] = "日本一である野菜・農作物はどれ？";
+
+			Question[i].Image_Graphic = LoadGraph("");//問題のイメージ画像を変数に読み込む
+
+			//選択肢
+			Question[i].choices[0] = "A：Apple社";
+			Question[i].choices[1] = "B：落花生";
+			Question[i].choices[2] = "C：メロン";
+			Question[i].choices[3] = "D：すいか";
+
+			//正解（A、B、C、Dのどれかを入力）
+			Question[i].answer = 'B';
+
+			//問題の解説
+			Question[i].tips[0] = "国内産の落花生の8割は、";
+			Question[i].tips[1] = "千葉県で生産されています。";
+		}
+		//5問目
+		if (Question[i].num == 4)
+		{
+			//問題文
+			Question[i].sentence[0] = "次のうち、千葉県での生産量が";
+			Question[i].sentence[1] = "日本一である野菜・農作物はどれ？";
+
+			Question[i].Image_Graphic = LoadGraph("");//問題のイメージ画像を変数に読み込む
+
+			//選択肢
+			Question[i].choices[0] = "A：Apple社";
+			Question[i].choices[1] = "B：落花生";
+			Question[i].choices[2] = "C：メロン";
+			Question[i].choices[3] = "D：すいか";
+
+			//正解（A、B、C、Dのどれかを入力）
+			Question[i].answer = 'B';
+
+			//問題の解説
+			Question[i].tips[0] = "国内産の落花生の8割は、";
+			Question[i].tips[1] = "千葉県で生産されています。";
+		}
+		//6問目
+		if (Question[i].num == 5)
+		{
+			//問題文
+			Question[i].sentence[0] = "次のうち、千葉県での生産量が";
+			Question[i].sentence[1] = "日本一である野菜・農作物はどれ？";
+
+			Question[i].Image_Graphic = LoadGraph("");//問題のイメージ画像を変数に読み込む
+
+			//選択肢
+			Question[i].choices[0] = "A：Apple社";
+			Question[i].choices[1] = "B：落花生";
+			Question[i].choices[2] = "C：メロン";
+			Question[i].choices[3] = "D：すいか";
+
+			//正解（A、B、C、Dのどれかを入力）
+			Question[i].answer = 'B';
+
+			//問題の解説
+			Question[i].tips[0] = "国内産の落花生の8割は、";
+			Question[i].tips[1] = "千葉県で生産されています。";
+		}
+		//7問目
+		if (Question[i].num == 6)
+		{
+			//問題文
+			Question[i].sentence[0] = "次のうち、千葉県での生産量が";
+			Question[i].sentence[1] = "日本一である野菜・農作物はどれ？";
+
+			Question[i].Image_Graphic = LoadGraph("");//問題のイメージ画像を変数に読み込む
+
+			//選択肢
+			Question[i].choices[0] = "A：Apple社";
+			Question[i].choices[1] = "B：落花生";
+			Question[i].choices[2] = "C：メロン";
+			Question[i].choices[3] = "D：すいか";
+
+			//正解（A、B、C、Dのどれかを入力）
+			Question[i].answer = 'B';
+
+			//問題の解説
+			Question[i].tips[0] = "国内産の落花生の8割は、";
+			Question[i].tips[1] = "千葉県で生産されています。";
+		}
+		//8問目
+		if (Question[i].num == 7)
+		{
+			//問題文
+			Question[i].sentence[0] = "次のうち、千葉県での生産量が";
+			Question[i].sentence[1] = "日本一である野菜・農作物はどれ？";
+
+			Question[i].Image_Graphic = LoadGraph("");//問題のイメージ画像を変数に読み込む
+
+			//選択肢
+			Question[i].choices[0] = "A：Apple社";
+			Question[i].choices[1] = "B：落花生";
+			Question[i].choices[2] = "C：メロン";
+			Question[i].choices[3] = "D：すいか";
+
+			//正解（A、B、C、Dのどれかを入力）
+			Question[i].answer = 'B';
+
+			//問題の解説
+			Question[i].tips[0] = "国内産の落花生の8割は、";
+			Question[i].tips[1] = "千葉県で生産されています。";
+		}
+		//9問目
+		if (Question[i].num == 8)
+		{
+			//問題文
+			Question[i].sentence[0] = "次のうち、千葉県での生産量が";
+			Question[i].sentence[1] = "日本一である野菜・農作物はどれ？";
+
+			Question[i].Image_Graphic = LoadGraph("");//問題のイメージ画像を変数に読み込む
+
+			//選択肢
+			Question[i].choices[0] = "A：Apple社";
+			Question[i].choices[1] = "B：落花生";
+			Question[i].choices[2] = "C：メロン";
+			Question[i].choices[3] = "D：すいか";
+
+			//正解（A、B、C、Dのどれかを入力）
+			Question[i].answer = 'B';
+
+			//問題の解説
+			Question[i].tips[0] = "国内産の落花生の8割は、";
+			Question[i].tips[1] = "千葉県で生産されています。";
+		}
+		//10問目
+		if (Question[i].num == 9)
+		{
+			//問題文
+			Question[i].sentence[0] = "次のうち、千葉県での生産量が";
+			Question[i].sentence[1] = "日本一である野菜・農作物はどれ？";
+
+			Question[i].Image_Graphic = LoadGraph("");//問題のイメージ画像を変数に読み込む
+
+			//選択肢
+			Question[i].choices[0] = "A：Apple社";
+			Question[i].choices[1] = "B：落花生";
+			Question[i].choices[2] = "C：メロン";
+			Question[i].choices[3] = "D：すいか";
+
+			//正解（A、B、C、Dのどれかを入力）
+			Question[i].answer = 'B';
+
+			//問題の解説
+			Question[i].tips[0] = "国内産の落花生の8割は、";
+			Question[i].tips[1] = "千葉県で生産されています。";
+		}
 	}
 }
 
@@ -160,6 +358,10 @@ void draw()
 	if (countstop == 0)
 	{
 		draw_time = 0;
+		if (Page == PageQ)
+		{
+			select_time = 10;
+		}
 		if (Page == PageA && correct == true)
 		{
 			before_score = 15 + combo * 5 + select_time * 2;
@@ -183,33 +385,25 @@ void draw()
 		if (draw_time >= 0)
 		{
 			DrawFormatString(250, 10, TextColor, "千葉県クイズ！");
-			//DrawStringToHandle(300, 10, "千葉県クイズ！", count_question, TextColor, FontHandle[1]);
 		}
 		if (draw_time >= 3)
 		{
 			DrawFormatString(250, 70, TextColor, "これから、千葉県に関するクイズを");
 			DrawFormatString(250, 105, TextColor, "10問出題します！");
-			//DrawStringToHandle(300, 70, "これから、千葉県に関するクイズを", TextColor, FontHandle[0]);
-			//DrawStringToHandle(300, 105, "10問出題します！", TextColor, FontHandle[0]);
 		}
 		if (draw_time >= 6)
 		{
 			DrawFormatString(250, 140, TextColor, "連続で正解したり、素早く答えて正解すると");
 			DrawFormatString(250, 175, TextColor, "スコアが大きく増えます！");
-			//DrawStringToHandle(300, 140, "連続で正解したり、素早く答えて正解すると", TextColor, FontHandle[0]);
-			//DrawStringToHandle(300, 175, "スコアが大きく増えます！", TextColor, FontHandle[0]);
 		}
 		if (draw_time >= 9)
 		{
 			DrawFormatString(250, 210, TextColor, "なお、制限時間内に解答しなかった場合");
 			DrawFormatString(250, 245, TextColor, "最後まで選択していたものが解答になります");
-			//DrawStringToHandle(300, 210, "なお、制限時間内に解答しなかった場合", TextColor, FontHandle[0]);
-			//DrawStringToHandle(300, 245, "最後まで選択していたものが解答になります", TextColor, FontHandle[0]);
 		}
 		if (draw_time >= 12)
 		{
 			DrawFormatString(250, 280, TextColor, "めざせ！ハイスコア！");
-			//DrawStringToHandle(300, 280, "めざせ！ハイスコア！", TextColor, FontHandle[0]);
 		}
 	}
 	//問題文を描画する
@@ -271,8 +465,8 @@ void draw()
 	//正解か、不正解かを表示
 	if (Page == PageA)
 	{
-		DrawFormatString(450, 10, TextColor, "スコア %d 点", score);
-		DrawFormatString(450, 45, TextColor, "制限時間 %d 秒", select_time);
+		DrawFormatString(0, 10, TextColor, "スコア %d 点", score);
+		DrawFormatString(0, 45, TextColor, "制限時間 %d 秒", select_time);
 		if (combo >= 2)
 		{
 			DrawFormatString(450, 80, TextColor, "%d 問連続正解！", combo);
@@ -280,30 +474,26 @@ void draw()
 		if (Select == Question[count_question].answer)
 		{
 			correct = true;
-			//DrawStringToHandle(300, 10, "正解！", TextColor, FontHandle[1]);
 			DrawFormatString(300, 10, TextColor, "正解！");
 			DrawFormatString(300, 45, TextColor, "スコア %d 点獲得！", before_score);
 		}
 		else {
 			correct = false;
 			combo = 0;
-			//DrawStringToHandle(300, 10, "不正解！", TextColor, FontHandle[1]);
 			DrawFormatString(300, 10, TextColor, "不正解！");
 		}
 	}
 	//解説を表示
 	if (Page == PageTIPS)
 	{
-		DrawFormatString(450, 10, TextColor, "スコア %d 点", score);
-		//DrawStringToHandle(300, 10, "正解は", TextColor, FontHandle[0]);
+		DrawFormatString(0, 10, TextColor, "スコア %d 点", score);
 		DrawFormatString(300, 10, TextColor, "正解は");
 		if (Question[count_question].num == 0)
 		{
-			//DrawStringToHandle(300, 45, "B：落花生", TextColor, FontHandle[1]);
 			DrawFormatString(300, 45, TextColor, "B：落花生");
 		}
-		DrawFormatString(300, 70, TextColor, "%s", Question[count_question].tips[0].c_str());
-		DrawFormatString(300, 105, TextColor, "%s", Question[count_question].tips[1].c_str());
+		DrawFormatString(300, 80, TextColor, "%s", Question[count_question].tips[0].c_str());
+		DrawFormatString(300, 115, TextColor, "%s", Question[count_question].tips[1].c_str());
 	}
 	//問題のイメージ画像を描画
 	DrawGraph(0, 0, Question[count_question].Image_Graphic, true);
@@ -316,7 +506,7 @@ void draw()
 		}
 		if (draw_time >= 2)
 		{
-			DrawFormatString(300, 10, TextColor, "あなたのスコアは... %d 点！", score);
+			DrawFormatString(300, 45, TextColor, "あなたのスコアは... %d 点！", score);
 		}
 	}
 }
@@ -364,7 +554,7 @@ void Update()
 	timer();
 
 	//デバッグ用
-	DrawFormatString(550, 100, TextColor, "何問目？ %d", count_question);
+	//DrawFormatString(550, 100, TextColor, "何問目？ %d", count_question);
 
 	//キーを押してページをめくる処理
 	//エンターキー(KEY_INPUT_RETURN)が押されたらページを進める
@@ -532,13 +722,14 @@ void Update()
 	//7ページ目の処理
 	if (Page == PageNULL)
 	{
-		if (count_question >= Question_No)
+		if (count_question < Question_No)
 		{
 			countstop = 0;
-			Page++;
-		}
-		else {
 			Page = PageQ;
+		}
+		if (count_question >= Question_No)
+		{
+			Page++;
 		}
 	}
 
