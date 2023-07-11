@@ -120,6 +120,7 @@ void init()
 		Question[i].num = { i };
 	}
 	for (i = 0; i < Question_No; i++) {
+		//1問目
 		if (Question[i].num == 0)
 		{
 			//問題文
