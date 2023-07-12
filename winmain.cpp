@@ -293,45 +293,37 @@ void init()
 		if (Question[i].num == 8)
 		{
 			//問題文
-			Question[i].sentence[0] = "次のうち、千葉県での生産量が";
-			Question[i].sentence[1] = "日本一である野菜・農作物はどれ？";
-
+			Question[i].sentence[0] = "次のうち、日本で一番";
+			Question[i].sentence[1] = "日の入りが早い場所は？（山頂、離島を除く）";
 			Question[i].Image_Graphic = LoadGraph("");//問題のイメージ画像を変数に読み込む
-
 			//選択肢
-			Question[i].choices[0] = "A：Apple社";
-			Question[i].choices[1] = "B：落花生";
-			Question[i].choices[2] = "C：メロン";
-			Question[i].choices[3] = "D：すいか";
-
+			Question[i].choices[0] = "A：犬吠埼";
+			Question[i].choices[1] = "B：御宿海岸";
+			Question[i].choices[2] = "C：野島崎";
+			Question[i].choices[3] = "D：大房岬";
 			//正解（A、B、C、Dのどれかを入力）
-			Question[i].answer = 'B';
-
+			Question[i].answer = 'A';
 			//問題の解説
-			Question[i].tips[0] = "国内産の落花生の8割は、";
-			Question[i].tips[1] = "千葉県で生産されています。";
+			Question[i].tips[0] = "銚子市にある犬吠埼は日本一日の入りが早く、年末には";
+			Question[i].tips[1] = "他県から人が多く寄せ付けます（午前６時４６分ごろ）";
 		}
 		//10問目
 		if (Question[i].num == 9)
 		{
 			//問題文
-			Question[i].sentence[0] = "次のうち、千葉県での生産量が";
-			Question[i].sentence[1] = "日本一である野菜・農作物はどれ？";
-
+			Question[i].sentence[0] = "シャチで有名な鴨川シーワールド、ではそのマスコットキャラである";
+			Question[i].sentence[1] = "代表取締役社長は？";
 			Question[i].Image_Graphic = LoadGraph("");//問題のイメージ画像を変数に読み込む
-
 			//選択肢
-			Question[i].choices[0] = "A：Apple社";
-			Question[i].choices[1] = "B：落花生";
-			Question[i].choices[2] = "C：メロン";
-			Question[i].choices[3] = "D：すいか";
-
+			Question[i].choices[0] = "A：須田 貞則";
+			Question[i].choices[1] = "B：竹井 透";
+			Question[i].choices[2] = "C：永松 文彦";
+			Question[i].choices[3] = "D：佐竹 博文";
 			//正解（A、B、C、Dのどれかを入力）
-			Question[i].answer = 'B';
-
+			Question[i].answer = 'A';
 			//問題の解説
-			Question[i].tips[0] = "国内産の落花生の8割は、";
-			Question[i].tips[1] = "千葉県で生産されています。";
+			Question[i].tips[0] = "株式会社グランビスタ ホテル＆リゾート. 代表取締役社長";
+			Question[i].tips[1] = "館長はみんなご存じ勝俣浩";
 		}
 	}
 }
@@ -402,6 +394,8 @@ void draw()
 	//問題文を描画する
 	if (Page == PageQ)
 	{
+		//問題のイメージ画像を描画
+		DrawGraph(0, 80, Question[count_question].Image_Graphic, true);
 		DrawFormatString(0, 10, TextColor, "スコア %d 点", score);
 		DrawFormatString(0, 45, TextColor, "制限時間 %d 秒", select_time);
 		if (draw_time >= 0)
@@ -487,6 +481,8 @@ void draw()
 	//解説を表示
 	if (Page == PageTIPS)
 	{
+		//問題のイメージ画像を描画
+		DrawGraph(0, 80, Question[count_question].Image_Graphic, true);
 		DrawFormatString(0, 10, TextColor, "スコア %d 点", score);
 		DrawFormatString(250, 10, TextColor, "正解は");
 		if (Question[count_question].num == 0)
@@ -499,15 +495,15 @@ void draw()
 		}
 		if (Question[count_question].num == 2)
 		{
-			DrawFormatString(250, 45, TextColor, "");
+			DrawFormatString(250, 45, TextColor, "A：日本地図");
 		}
 		if (Question[count_question].num == 3)
 		{
-			DrawFormatString(250, 45, TextColor, "");
+			DrawFormatString(250, 45, TextColor, "B：「おいしい記憶をつくりたい。」");
 		}
 		if (Question[count_question].num == 4)
 		{
-			DrawFormatString(250, 45, TextColor, "");
+			DrawFormatString(250, 45, TextColor, "C：アジ");
 		}
 		if (Question[count_question].num == 5)
 		{
@@ -523,18 +519,16 @@ void draw()
 		}
 		if (Question[count_question].num == 8)
 		{
-			DrawFormatString(250, 45, TextColor, "");
+			DrawFormatString(250, 45, TextColor, "A：犬吠埼");
 		}
 		if (Question[count_question].num == 9)
 		{
-			DrawFormatString(250, 45, TextColor, "");
+			DrawFormatString(250, 45, TextColor, "A：須田 貞則");
 		}
 		DrawFormatString(250, 80, TextColor, "%s", Question[count_question].tips[0].c_str());
 		DrawFormatString(250, 115, TextColor, "%s", Question[count_question].tips[1].c_str());
 		DrawFormatString(250, 150, TextColor, "%s", Question[count_question].tips[2].c_str());
 	}
-	//問題のイメージ画像を描画
-	DrawGraph(0, 0, Question[count_question].Image_Graphic, true);
 	//結果発表～！
 	if (Page == PageRESULT)
 	{
