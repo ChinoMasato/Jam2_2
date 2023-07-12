@@ -21,9 +21,6 @@ enum
 	PageRESULT,//結果発表～！
 	PageEND//終了～！
 };
-//授業始まるってよ。
-//
-//
 
 //問題の構造体
 struct QU
@@ -172,67 +169,55 @@ void init()
 		if (Question[i].num == 2)
 		{
 			//問題文
-			Question[i].sentence[0] = "次のうち、千葉県での生産量が";
-			Question[i].sentence[1] = "日本一である野菜・農作物はどれ？";
-
+			Question[i].sentence[0] = "千葉県山武郡九十九里町で生まれた伊能忠敬は";
+			Question[i].sentence[1] = "何をつくった？";
 			Question[i].Image_Graphic = LoadGraph("");//問題のイメージ画像を変数に読み込む
-
 			//選択肢
-			Question[i].choices[0] = "A：Apple社";
-			Question[i].choices[1] = "B：落花生";
-			Question[i].choices[2] = "C：メロン";
-			Question[i].choices[3] = "D：すいか";
-
+			Question[i].choices[0] = "A：日本地図";
+			Question[i].choices[1] = "B：醤油";
+			Question[i].choices[2] = "C：びわ";
+			Question[i].choices[3] = "D：望遠鏡";
 			//正解（A、B、C、Dのどれかを入力）
-			Question[i].answer = 'B';
-
+			Question[i].answer = 'A';
 			//問題の解説
-			Question[i].tips[0] = "国内産の落花生の8割は、";
-			Question[i].tips[1] = "千葉県で生産されています。";
+			Question[i].tips[0] = "伊能忠敬は弟子たちとともに日本を歩き回り";
+			Question[i].tips[1] = "日本地図を完成させた人物です。";
 		}
 		//4問目
 		if (Question[i].num == 3)
 		{
 			//問題文
-			Question[i].sentence[0] = "次のうち、千葉県での生産量が";
-			Question[i].sentence[1] = "日本一である野菜・農作物はどれ？";
-
+			Question[i].sentence[0] = "次のうちキッコーマンの";
+			Question[i].sentence[1] = "スローガンはどれ？";
 			Question[i].Image_Graphic = LoadGraph("");//問題のイメージ画像を変数に読み込む
-
 			//選択肢
-			Question[i].choices[0] = "A：Apple社";
-			Question[i].choices[1] = "B：落花生";
-			Question[i].choices[2] = "C：メロン";
-			Question[i].choices[3] = "D：すいか";
-
+			Question[i].choices[0] = "A：「深い味わいを。」";
+			Question[i].choices[1] = "B：「おいしい記憶をつくりたい。」";
+			Question[i].choices[2] = "C：「食卓に笑顔を。」";
+			Question[i].choices[3] = "D：「頂点を、つかむ。」";
 			//正解（A、B、C、Dのどれかを入力）
 			Question[i].answer = 'B';
-
 			//問題の解説
-			Question[i].tips[0] = "国内産の落花生の8割は、";
-			Question[i].tips[1] = "千葉県で生産されています。";
+			Question[i].tips[0] = "「おいしい記憶をつくりたい。」このスローガンは日本国内向けで、";
+			Question[i].tips[1] = "世界では「seasoning your life」を用いています。";
 		}
 		//5問目
 		if (Question[i].num == 4)
 		{
 			//問題文
-			Question[i].sentence[0] = "次のうち、千葉県での生産量が";
-			Question[i].sentence[1] = "日本一である野菜・農作物はどれ？";
-
+			Question[i].sentence[0] = "千葉県の郷土料理「なめろう」の材料　長ねぎ、しょうが、　";
+			Question[i].sentence[1] = "しそ、味噌、あとひとつはどれ？";
 			Question[i].Image_Graphic = LoadGraph("");//問題のイメージ画像を変数に読み込む
-
 			//選択肢
-			Question[i].choices[0] = "A：Apple社";
-			Question[i].choices[1] = "B：落花生";
-			Question[i].choices[2] = "C：メロン";
-			Question[i].choices[3] = "D：すいか";
-
+			Question[i].choices[0] = "A：サーモン";
+			Question[i].choices[1] = "B：サバ";
+			Question[i].choices[2] = "C：アジ";
+			Question[i].choices[3] = "D：タイ";
 			//正解（A、B、C、Dのどれかを入力）
-			Question[i].answer = 'B';
-
+			Question[i].answer = 'C';
 			//問題の解説
-			Question[i].tips[0] = "国内産の落花生の8割は、";
-			Question[i].tips[1] = "千葉県で生産されています。";
+			Question[i].tips[0] = "なめろうの食材には一年中獲れるアジが使われます。";
+			Question[i].tips[1] = "他の魚だと、イワシ、サンマ、トビウオでもつくられます。";
 		}
 		//6問目（大根）
 		if (Question[i].num == 5)
@@ -421,23 +406,23 @@ void draw()
 		DrawFormatString(0, 45, TextColor, "制限時間 %d 秒", select_time);
 		if (draw_time >= 0)
 		{
-			DrawFormatString(300, 10, TextColor, "第 %d 問", count_question + 1);
+			DrawFormatString(250, 10, TextColor, "第 %d 問", count_question + 1);
 		}
 		if (draw_time >= 3)
 		{
-			DrawFormatString(300, 45, TextColor, "%s", Question[count_question].sentence[0].c_str());
+			DrawFormatString(250, 45, TextColor, "%s", Question[count_question].sentence[0].c_str());
 		}
 		if (draw_time >= 6)
 		{
-			DrawFormatString(300, 80, TextColor, "%s", Question[count_question].sentence[1].c_str());
+			DrawFormatString(250, 80, TextColor, "%s", Question[count_question].sentence[1].c_str());
 		}
 		if (draw_time >= 9)
 		{
-			DrawFormatString(300, 115, TextColor, "%s", Question[count_question].sentence[2].c_str());
+			DrawFormatString(250, 115, TextColor, "%s", Question[count_question].sentence[2].c_str());
 		}
 		if (draw_time >= 12)
 		{
-			DrawFormatString(300, 150, TextColor, "%s", Question[count_question].sentence[3].c_str());
+			DrawFormatString(250, 150, TextColor, "%s", Question[count_question].sentence[3].c_str());
 		}
 		//選択肢表示
 		if (draw_time >= 15 && select_time > 0)
@@ -449,11 +434,11 @@ void draw()
 			//カーソルを描画
 			if (Select == 'A')
 			{
-				DrawFormatString(60, 260, TextColor, "⇒");
+				DrawFormatString(60, 450, TextColor, "⇒");
 			}
 			if (Select == 'B')
 			{
-				DrawFormatString(310, 260, TextColor, "⇒");
+				DrawFormatString(310, 450, TextColor, "⇒");
 			}
 			if (Select == 'C')
 			{
@@ -464,9 +449,9 @@ void draw()
 				DrawFormatString(310, 480, TextColor, "⇒");
 			}
 			//Aの選択肢
-			DrawFormatString(110, 260, TextColor, "%s", Question[count_question].choices[0].c_str());
+			DrawFormatString(110, 450, TextColor, "%s", Question[count_question].choices[0].c_str());
 			//Bの選択肢
-			DrawFormatString(360, 260, TextColor, "%s", Question[count_question].choices[1].c_str());
+			DrawFormatString(360, 450, TextColor, "%s", Question[count_question].choices[1].c_str());
 			//Cの選択肢
 			DrawFormatString(110, 480, TextColor, "%s", Question[count_question].choices[2].c_str());
 			//Dの選択肢
@@ -485,68 +470,68 @@ void draw()
 		DrawFormatString(0, 45, TextColor, "制限時間 %d 秒", select_time);
 		if (combo >= 2)
 		{
-			DrawFormatString(450, 80, TextColor, "%d 問連続正解！", combo);
+			DrawFormatString(250, 80, TextColor, "%d 問連続正解！", combo);
 		}
 		if (Select == Question[count_question].answer)
 		{
 			correct = true;
-			DrawFormatString(300, 10, TextColor, "正解！");
-			DrawFormatString(300, 45, TextColor, "スコア %d 点獲得！", before_score);
+			DrawFormatString(250, 10, TextColor, "正解！");
+			DrawFormatString(250, 45, TextColor, "スコア %d 点獲得！", before_score);
 		}
 		else {
 			correct = false;
 			combo = 0;
-			DrawFormatString(300, 10, TextColor, "不正解！");
+			DrawFormatString(250, 10, TextColor, "不正解！");
 		}
 	}
 	//解説を表示
 	if (Page == PageTIPS)
 	{
 		DrawFormatString(0, 10, TextColor, "スコア %d 点", score);
-		DrawFormatString(300, 10, TextColor, "正解は");
+		DrawFormatString(250, 10, TextColor, "正解は");
 		if (Question[count_question].num == 0)
 		{
-			DrawFormatString(300, 45, TextColor, "A：幸水");
+			DrawFormatString(250, 45, TextColor, "A：幸水");
 		}
 		if (Question[count_question].num == 1)
 		{
-			DrawFormatString(300, 45, TextColor, "C：狸");
+			DrawFormatString(250, 45, TextColor, "C：狸");
 		}
 		if (Question[count_question].num == 2)
 		{
-			DrawFormatString(300, 45, TextColor, "");
+			DrawFormatString(250, 45, TextColor, "");
 		}
 		if (Question[count_question].num == 3)
 		{
-			DrawFormatString(300, 45, TextColor, "");
+			DrawFormatString(250, 45, TextColor, "");
 		}
 		if (Question[count_question].num == 4)
 		{
-			DrawFormatString(300, 45, TextColor, "");
+			DrawFormatString(250, 45, TextColor, "");
 		}
 		if (Question[count_question].num == 5)
 		{
-			DrawFormatString(300, 45, TextColor, "D：大根");
+			DrawFormatString(250, 45, TextColor, "D：大根");
 		}
 		if (Question[count_question].num == 6)
 		{
-			DrawFormatString(300, 45, TextColor, "C：龍角寺");
+			DrawFormatString(250, 45, TextColor, "C：龍角寺");
 		}
 		if (Question[count_question].num == 7)
 		{
-			DrawFormatString(300, 45, TextColor, "B：落花生");
+			DrawFormatString(250, 45, TextColor, "B：落花生");
 		}
 		if (Question[count_question].num == 8)
 		{
-			DrawFormatString(300, 45, TextColor, "");
+			DrawFormatString(250, 45, TextColor, "");
 		}
 		if (Question[count_question].num == 9)
 		{
-			DrawFormatString(300, 45, TextColor, "");
+			DrawFormatString(250, 45, TextColor, "");
 		}
-		DrawFormatString(300, 80, TextColor, "%s", Question[count_question].tips[0].c_str());
-		DrawFormatString(300, 115, TextColor, "%s", Question[count_question].tips[1].c_str());
-		DrawFormatString(300, 150, TextColor, "%s", Question[count_question].tips[2].c_str());
+		DrawFormatString(250, 80, TextColor, "%s", Question[count_question].tips[0].c_str());
+		DrawFormatString(250, 115, TextColor, "%s", Question[count_question].tips[1].c_str());
+		DrawFormatString(250, 150, TextColor, "%s", Question[count_question].tips[2].c_str());
 	}
 	//問題のイメージ画像を描画
 	DrawGraph(0, 0, Question[count_question].Image_Graphic, true);
@@ -555,11 +540,11 @@ void draw()
 	{
 		if (draw_time >= 0)
 		{
-			DrawFormatString(300, 10, TextColor, "成績発表！");
+			DrawFormatString(250, 10, TextColor, "成績発表！");
 		}
 		if (draw_time >= 2)
 		{
-			DrawFormatString(300, 45, TextColor, "あなたのスコアは... %d 点！", score);
+			DrawFormatString(250, 45, TextColor, "あなたのスコアは... %d 点！", score);
 		}
 	}
 }
