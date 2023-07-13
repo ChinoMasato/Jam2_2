@@ -13,10 +13,11 @@ enum
 {
 	PageTITLE,
 	PageEXPLAIN,
-	PageQ,//問題
 	PageSYSTEM,//countstopを0にする場所
-	PageA,//正解or不正解
+	PageQ,//問題
 	PageSYSTEM_2,//countstopを0にする場所
+	PageA,//正解or不正解
+	PageSYSTEM_3,//countstopを0にする場所
 	PageTIPS,//問題の解説（次のページでPageQに戻る）
 	PageNULL,//繰り返しに必要なのりしろページ
 	PageRESULT,//結果発表～！
@@ -467,22 +468,22 @@ void draw()
 		{
 			DrawFormatString(250, 10, TextColor, "千葉県クイズ！");
 		}
-		if (draw_time >= 3)
+		if (draw_time >= 1)
 		{
 			DrawFormatString(250, 70, TextColor, "これから、千葉県に関するクイズを");
 			DrawFormatString(250, 105, TextColor, "10問出題します！");
 		}
-		if (draw_time >= 6)
+		if (draw_time >= 2)
 		{
 			DrawFormatString(250, 140, TextColor, "連続で正解したり、素早く答えて正解すると");
 			DrawFormatString(250, 175, TextColor, "スコアが大きく増えます！");
 		}
-		if (draw_time >= 9)
+		if (draw_time >= 3)
 		{
 			DrawFormatString(250, 210, TextColor, "なお、制限時間内に解答しなかった場合");
 			DrawFormatString(250, 245, TextColor, "最後まで選択していたものが解答になります");
 		}
-		if (draw_time >= 12)
+		if (draw_time >= 4)
 		{
 			DrawFormatString(250, 280, TextColor, "めざせ！ハイスコア！");
 		}
@@ -498,7 +499,7 @@ void draw()
 		{
 			DrawFormatString(250, 10, TextColor, "第 %d 問", count_question + 1);
 		}
-		if (draw_time >= 3)
+		if (draw_time >= 2)
 		{
 			if (Question[count_question].enable[0] == true)
 			{
@@ -508,7 +509,7 @@ void draw()
 				select_draw();
 			}
 		}
-		if (draw_time >= 6)
+		if (draw_time >= 4)
 		{
 			if (Question[count_question].enable[1] == true)
 			{
@@ -518,7 +519,7 @@ void draw()
 				select_draw();
 			}
 		}
-		if (draw_time >= 9)
+		if (draw_time >= 6)
 		{
 			if (Question[count_question].enable[2] == true)
 			{
@@ -528,7 +529,7 @@ void draw()
 				select_draw();
 			}
 		}
-		if (draw_time >= 12)
+		if (draw_time >= 8)
 		{
 			if (Question[count_question].enable[3] == true)
 			{
@@ -538,7 +539,7 @@ void draw()
 				select_draw();
 			}
 		}
-		if (draw_time >= 15)
+		if (draw_time >= 10)
 		{
 			if (Question[count_question].enable[4] == true)
 			{
@@ -686,7 +687,7 @@ void Update()
 	timer();
 
 	//デバッグ用
-	//DrawFormatString(550, 100, TextColor, "何問目？ %d", count_question);
+	DrawFormatString(550, 100, TextColor, "描画時間%d", draw_time);
 
 	//キーを押してページをめくる処理
 	//エンターキー(KEY_INPUT_RETURN)が押されたらページを進める
@@ -824,7 +825,7 @@ void Update()
 		//メッセージウィンドウにテキストを表示する
 		draw();
 	}
-	if (Page == PageSYSTEM || Page == PageSYSTEM_2)
+	if (Page == PageSYSTEM || Page == PageSYSTEM_2 || Page == PageSYSTEM_3)
 	{
 		countstop = 0;
 		Page++;
