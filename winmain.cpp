@@ -16,6 +16,7 @@ enum
 	PageQ,//問題
 	PageSYSTEM,//countstopを0にする場所
 	PageA,//正解or不正解
+	PageSYSTEM_2,//countstopを0にする場所
 	PageTIPS,//問題の解説（次のページでPageQに戻る）
 	PageNULL,//繰り返しに必要なのりしろページ
 	PageRESULT,//結果発表～！
@@ -737,7 +738,7 @@ void Update()
 		//メッセージウィンドウにテキストを表示する
 		draw();
 	}
-	if (Page == PageSYSTEM)
+	if (Page == PageSYSTEM || Page == PageSYSTEM_2)
 	{
 		countstop = 0;
 		Page++;
