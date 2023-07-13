@@ -36,7 +36,7 @@ struct QU
 	//正解
 	char answer;
 	//問題の解説（とりあえず最大3行）
-	string tips[3];
+	string tips[4];
 };
 
 //10問まで問題を代入できる
