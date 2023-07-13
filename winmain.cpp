@@ -126,7 +126,7 @@ void init()
 			Question[i].sentence[2] = "７月下旬から８月中旬までの";
 			Question[i].sentence[3] = "品種は次のうちどれ？";
 
-			Question[i].Image_Graphic = LoadGraph("");//問題のイメージ画像を変数に読み込む
+			Question[i].Image_Graphic = LoadGraph("幸水.png");//問題のイメージ画像を変数に読み込む
 
 			//選択肢
 			Question[i].choices[0] = "A：幸水";
@@ -150,7 +150,7 @@ void init()
 			Question[i].sentence[1] = "「日本三大■伝説」のひとつとして有名。";
 			Question[i].sentence[2] = "■に入る動物は、次のうちどれ？";
 
-			Question[i].Image_Graphic = LoadGraph("");//問題のイメージ画像を変数に読み込む
+			Question[i].Image_Graphic = LoadGraph("狸.png");//問題のイメージ画像を変数に読み込む
 
 			//選択肢
 			Question[i].choices[0] = "A：狐";
@@ -210,7 +210,7 @@ void init()
 			Question[i].sentence[0] = "千葉県の郷土料理「なめろう」の材料";
 			Question[i].sentence[1] = "長ねぎ、しょうが、しそ、味噌、";
 			Question[i].sentence[2] = "あとひとつはどれ？";
-			Question[i].Image_Graphic = LoadGraph("");//問題のイメージ画像を変数に読み込む
+			Question[i].Image_Graphic = LoadGraph("なめろう.png");//問題のイメージ画像を変数に読み込む
 			//選択肢
 			Question[i].choices[0] = "A：サーモン";
 			Question[i].choices[1] = "B：サバ";
@@ -279,7 +279,7 @@ void init()
 			Question[i].sentence[0] = "次のうち、千葉県での生産量が";
 			Question[i].sentence[1] = "日本一である野菜・農作物はどれ？";
 
-			Question[i].Image_Graphic = LoadGraph("");//問題のイメージ画像を変数に読み込む
+			Question[i].Image_Graphic = LoadGraph("落花生.png");//問題のイメージ画像を変数に読み込む
 
 			//選択肢
 			Question[i].choices[0] = "A：Apple社";
