@@ -533,8 +533,6 @@ void draw()
 		DrawFormatString(250, 80, TextColor, "%s", Question[count_question].tips[0].c_str());
 		DrawFormatString(250, 115, TextColor, "%s", Question[count_question].tips[1].c_str());
 		DrawFormatString(250, 150, TextColor, "%s", Question[count_question].tips[2].c_str());
-		DrawFormatString(250, 185, TextColor, "%s", Question[count_question].tips[3].c_str());
-
 	}
 	//結果発表～！
 	if (Page == PageRESULT)
