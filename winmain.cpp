@@ -428,7 +428,7 @@ void draw()
 			DrawFormatString(250, 150, TextColor, "%s", Question[count_question].sentence[4].c_str());
 		}
 		//選択肢表示
-		if (draw_time >= 15 && select_time > 0)
+		if (draw_time >= 16 && select_time > 0)
 		{
 			if (update_count % one_second == 0)
 			{
