@@ -309,15 +309,17 @@ void init()
 			//正解（A、B、C、Dのどれかを入力）
 			Question[i].answer = 'A';
 			//問題の解説
-			Question[i].tips[0] = "銚子市にある犬吠埼は日本一日の入りが早く、年末には";
-			Question[i].tips[1] = "他県から人が多く寄せ付けます（午前６時４６分ごろ）";
+			Question[i].tips[0] = "千葉県の東部に位置する銚子市犬吠埼は";
+			Question[i].tips[1] = "日本一日の入りが早く、年末には";
+			Question[i].tips[2] = "他県から人が多く寄せ付けます（午前６時４６分ごろ）";
 		}
 		//10問目
 		if (Question[i].num == 9)
 		{
 			//問題文
-			Question[i].sentence[0] = "シャチで有名な鴨川シーワールド、ではそのマスコットキャラである";
-			Question[i].sentence[1] = "代表取締役社長は？";
+			Question[i].sentence[0] = "シャチで有名な鴨川シーワールド、";
+			Question[i].sentence[1] = "ではそのマスコットキャラである";
+			Question[i].sentence[2] = "代表取締役社長は？";
 			Question[i].Image_Graphic = LoadGraph("");//問題のイメージ画像を変数に読み込む
 			//選択肢
 			Question[i].choices[0] = "A：須田 貞則";
