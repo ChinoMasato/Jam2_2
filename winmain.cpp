@@ -169,8 +169,8 @@ void init()
 		if (Question[i].num == 2)
 		{
 			//問題文
-			Question[i].sentence[0] = "千葉県山武郡九十九里町で生まれた伊能忠敬は";
-			Question[i].sentence[1] = "何をつくった？";
+			Question[i].sentence[0] = "千葉県山武郡九十九里町で生まれた";
+			Question[i].sentence[1] = "伊能忠敬は何をつくった？";
 			Question[i].Image_Graphic = LoadGraph("");//問題のイメージ画像を変数に読み込む
 			//選択肢
 			Question[i].choices[0] = "A：日本地図";
