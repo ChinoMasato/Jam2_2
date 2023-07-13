@@ -102,7 +102,11 @@ int j = 0;
 int update_count = 0;
 //一度だけ実行したい処理に使う（0のときはオフ→実行する）
 int countstop = 0;
-int one_second = 144;
+int countstop_2 = 0;
+int countstop_3 = 0;
+int countstop_4 = 0;
+
+int one_second = 80;//144が最適か（学校のPCの場合）
 
 int select_time = 10;
 bool count_down_select_time = false;
@@ -118,6 +122,17 @@ int max_combo = 0;
 //正解しているか
 bool correct = true;
 int correct_num = 0;
+
+//SEの変数
+int select_SE;
+int timer_SE;
+int timer_fast_SE;
+int question_SE;
+int correct_SE;
+int incorrect_SE;
+
+//int SE_loop = 0;
+// SE_loop_2 = 0;
 
 void select_draw()
 {
@@ -154,6 +169,14 @@ void select_draw()
 
 void init()
 {
+	//SEの変数
+	select_SE = LoadSoundMem("十字キーで選ぶときに使えそう.mp3");
+	timer_SE = LoadSoundMem("制限時間タイマー.mp3");
+	timer_fast_SE = LoadSoundMem("制限時間タイマー（倍速）.mp3");
+	question_SE = LoadSoundMem("クイズ出題1.mp3");
+	correct_SE = LoadSoundMem("クイズ正解1.mp3");
+	incorrect_SE = LoadSoundMem("クイズ不正解1.mp3");
+
 	for (i = 0; i < Question_No; i++) {
 		Question[i].num = { i };
 		for (j = 0; j < 7; j++){
@@ -445,6 +468,7 @@ void draw()
 		if (Page == PageQ)
 		{
 			select_time = 10;
+			PlaySoundMem(question_SE, DX_PLAYTYPE_BACK);
 		}
 		if (Page == PageA && correct == true)
 		{
@@ -462,6 +486,42 @@ void draw()
 		}
 		countstop = 1;
 	}
+
+	if (countstop_2 == 0 && count_down_select_time == true)
+	{
+		if (Page == PageQ)
+		{
+			PlaySoundMem(timer_SE, DX_PLAYTYPE_BACK);
+			countstop_2 = 1;
+		}
+	}
+	if (select_time <= 5 && countstop_3 == 0)
+	{
+		StopMusic();
+		countstop_2 = 0;
+		countstop_3 = 1;
+	}
+
+	/*if (countstop_3 == 0 && count_down_select_time == true)
+	{
+		if (Page == PageQ)
+		{
+			if (select_time <= 5)
+			{
+				PlaySoundMem(timer_fast_SE, DX_PLAYTYPE_BACK);
+				countstop_3 = 1;
+				if (select_time % one_second == 0)
+				{
+					SE_loop_2++;
+				}
+			}
+		}
+	}
+	if (countstop_3 == 1 && SE_loop_2 < 5)
+	{
+		countstop_3 = 0;
+	}*/
+
 	if (update_count % one_second == 0)
 	{
 		draw_time++;
@@ -605,11 +665,21 @@ void draw()
 			correct = true;
 			DrawFormatString(250, 10, TextColor, "正解！");
 			DrawFormatString(250, 45, TextColor, "スコア %d 点獲得！", before_score);
+			if (countstop_4 == 0)
+			{
+				PlaySoundMem(correct_SE, DX_PLAYTYPE_BACK);
+				countstop_4 = 1;
+			}
 		}
 		else {
 			correct = false;
 			combo = 0;
 			DrawFormatString(250, 10, TextColor, "不正解！");
+			if (countstop_4 == 0)
+			{
+				PlaySoundMem(incorrect_SE, DX_PLAYTYPE_BACK);
+				countstop_4 = 1;
+			}
 		}
 	}
 	//解説を表示
@@ -721,7 +791,7 @@ void Start()
 	TextColor = GetColor(255, 255, 255);//文字は白で書く
 
 	//BGM再生
-	PlayMusic("bgm_maoudamashii_neorock71b.mp3", DX_PLAYTYPE_LOOP);
+	//PlayMusic("bgm_maoudamashii_neorock71b.mp3", DX_PLAYTYPE_LOOP);
 }
 
 //毎フレーム呼ばれる処理
@@ -748,6 +818,7 @@ void Update()
 	if (CheckHitKey(KEY_INPUT_DOWN) == 1
 		&& SelectStop == 0)
 	{
+		PlaySoundMem(select_SE, DX_PLAYTYPE_BACK);
 		if (Select == 'A')
 		{
 			Select = 'C';
@@ -763,6 +834,7 @@ void Update()
 	if (CheckHitKey(KEY_INPUT_UP) == 1
 		&& SelectStop == 0)
 	{
+		PlaySoundMem(select_SE, DX_PLAYTYPE_BACK);
 		if (Select == 'C')
 		{
 			Select = 'A';
@@ -778,6 +850,7 @@ void Update()
 	if (CheckHitKey(KEY_INPUT_RIGHT) == 1
 		&& SelectStop == 0)
 	{
+		PlaySoundMem(select_SE, DX_PLAYTYPE_BACK);
 		if (Select == 'A')
 		{
 			Select = 'B';
@@ -793,6 +866,7 @@ void Update()
 	if (CheckHitKey(KEY_INPUT_LEFT) == 1
 		&& SelectStop == 0)
 	{
+		PlaySoundMem(select_SE, DX_PLAYTYPE_BACK);
 		if (Select == 'B')
 		{
 			Select = 'A';
@@ -901,6 +975,10 @@ void Update()
 		if (count_question < Question_No - 1)
 		{
 			countstop = 0;
+			countstop_2 = 0;
+			countstop_3 = 0;
+			countstop_4 = 0;
+			//SE_loop_2 = 0;
 			count_question++;
 			Page = PageQ;
 		}
