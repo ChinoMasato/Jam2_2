@@ -198,15 +198,18 @@ void init()
 			//正解（A、B、C、Dのどれかを入力）
 			Question[i].answer = 'B';
 			//問題の解説
-			Question[i].tips[0] = "「おいしい記憶をつくりたい。」このスローガンは日本国内向けで、";
-			Question[i].tips[1] = "世界では「seasoning your life」を用いています。";
+			Question[i].tips[0] = "「おいしい記憶をつくりたい。」"; 
+			Question[i].tips[1] = "このスローガンは日本国内向けで、";
+			Question[i].tips[2] = "世界では「seasoning your life」";
+			Question[i].tips[3] = "を用いています。";
 		}
 		//5問目
 		if (Question[i].num == 4)
 		{
 			//問題文
-			Question[i].sentence[0] = "千葉県の郷土料理「なめろう」の材料　長ねぎ、しょうが、　";
-			Question[i].sentence[1] = "しそ、味噌、あとひとつはどれ？";
+			Question[i].sentence[0] = "千葉県の郷土料理「なめろう」の材料";
+			Question[i].sentence[1] = "長ねぎ、しょうが、しそ、味噌、";
+			Question[i].sentence[2] = "あとひとつはどれ？"
 			Question[i].Image_Graphic = LoadGraph("");//問題のイメージ画像を変数に読み込む
 			//選択肢
 			Question[i].choices[0] = "A：サーモン";
@@ -216,8 +219,10 @@ void init()
 			//正解（A、B、C、Dのどれかを入力）
 			Question[i].answer = 'C';
 			//問題の解説
-			Question[i].tips[0] = "なめろうの食材には一年中獲れるアジが使われます。";
-			Question[i].tips[1] = "他の魚だと、イワシ、サンマ、トビウオでもつくられます。";
+			Question[i].tips[0] = "なめろうの食材には一年中獲れる";
+			Question[i].tips[1] = "アジが使われます。";
+			Question[i].tips[2] = "他の魚だと、イワシ、サンマ、";
+			Question[i].tips[3] = "トビウオでもつくられます。";
 		}
 		//6問目（大根）
 		if (Question[i].num == 5)
