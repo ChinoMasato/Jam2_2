@@ -30,6 +30,8 @@ struct QU
 	int num;
 	//問題文（最大7行）
 	string sentence[7];
+	//問題文が入っているか（行ごと）
+	bool enable[7];
 	//問題のイメージ画像の変数
 	int Image_Graphic;
 	//選択肢
@@ -94,6 +96,7 @@ char Select = 'A';
 int SelectStop;
 
 int i = 0;
+int j = 0;
 
 int update_count = 0;
 //一度だけ実行したい処理に使う（0のときはオフ→実行する）
@@ -112,10 +115,50 @@ int combo = 0;
 //正解しているか
 bool correct = true;
 
+void select_draw()
+{
+	//選択肢表示
+	if (select_time > 0)
+	{
+		if (update_count % one_second == 0)
+		{
+			select_time--;
+		}
+		//カーソルを描画
+		if (Select == 'A')
+		{
+			DrawFormatString(60, 450, TextColor, "⇒");
+		}
+		if (Select == 'B')
+		{
+			DrawFormatString(310, 450, TextColor, "⇒");
+		}
+		if (Select == 'C')
+		{
+			DrawFormatString(60, 480, TextColor, "⇒");
+		}
+		if (Select == 'D')
+		{
+			DrawFormatString(310, 480, TextColor, "⇒");
+		}
+		//Aの選択肢
+		DrawFormatString(110, 450, TextColor, "%s", Question[count_question].choices[0].c_str());
+		//Bの選択肢
+		DrawFormatString(360, 450, TextColor, "%s", Question[count_question].choices[1].c_str());
+		//Cの選択肢
+		DrawFormatString(110, 480, TextColor, "%s", Question[count_question].choices[2].c_str());
+		//Dの選択肢
+		DrawFormatString(360, 480, TextColor, "%s", Question[count_question].choices[3].c_str());
+	}
+}
+
 void init()
 {
 	for (i = 0; i < Question_No; i++) {
 		Question[i].num = { i };
+		for (j = 0; j < 7; j++){
+			Question[i].enable[j] = false;
+		}
 	}
 	for (i = 0; i < Question_No; i++) {
 		//1問目　（日本梨）
@@ -126,6 +169,10 @@ void init()
 			Question[i].sentence[1] = "おおよその収穫時期が";
 			Question[i].sentence[2] = "７月下旬から８月中旬までの";
 			Question[i].sentence[3] = "品種は次のうちどれ？";
+
+			for (j = 0; j < 4; j++) {
+				Question[i].enable[j] = true;
+			}
 
 			Question[i].Image_Graphic = LoadGraph("幸水.png");//問題のイメージ画像を変数に読み込む
 
@@ -151,6 +198,10 @@ void init()
 			Question[i].sentence[1] = "「日本三大■伝説」のひとつとして有名。";
 			Question[i].sentence[2] = "■に入る動物は、次のうちどれ？";
 
+			for (j = 0; j < 3; j++) {
+				Question[i].enable[j] = true;
+			}
+
 			Question[i].Image_Graphic = LoadGraph("狸.png");//問題のイメージ画像を変数に読み込む
 
 			//選択肢
@@ -172,6 +223,11 @@ void init()
 			//問題文
 			Question[i].sentence[0] = "千葉県山武郡九十九里町で生まれた";
 			Question[i].sentence[1] = "伊能忠敬は何をつくった？";
+
+			for (j = 0; j < 2; j++) {
+				Question[i].enable[j] = true;
+			}
+
 			Question[i].Image_Graphic = LoadGraph("");//問題のイメージ画像を変数に読み込む
 			//選択肢
 			Question[i].choices[0] = "A：日本地図";
@@ -190,6 +246,11 @@ void init()
 			//問題文
 			Question[i].sentence[0] = "次のうちキッコーマンの";
 			Question[i].sentence[1] = "スローガンはどれ？";
+
+			for (j = 0; j < 2; j++) {
+				Question[i].enable[j] = true;
+			}
+
 			Question[i].Image_Graphic = LoadGraph("");//問題のイメージ画像を変数に読み込む
 			//選択肢
 			Question[i].choices[0] = "A：「深い味わいを。」";
@@ -211,6 +272,11 @@ void init()
 			Question[i].sentence[0] = "千葉県の郷土料理「なめろう」の材料";
 			Question[i].sentence[1] = "長ねぎ、しょうが、しそ、味噌、";
 			Question[i].sentence[2] = "あとひとつはどれ？";
+
+			for (j = 0; j < 3; j++) {
+				Question[i].enable[j] = true;
+			}
+
 			Question[i].Image_Graphic = LoadGraph("なめろう.png");//問題のイメージ画像を変数に読み込む
 			//選択肢
 			Question[i].choices[0] = "A：サーモン";
@@ -231,6 +297,10 @@ void init()
 			//問題文
 			Question[i].sentence[0] = "次のうち、千葉県での生産量が";
 			Question[i].sentence[1] = "日本一である野菜・農作物はどれ？";
+
+			for (j = 0; j < 2; j++) {
+				Question[i].enable[j] = true;
+			}
 
 			Question[i].Image_Graphic = LoadGraph("");//問題のイメージ画像を変数に読み込む
 
@@ -257,6 +327,10 @@ void init()
 			Question[i].sentence[3] = "龍腹寺、龍尾寺ができた。";
 			Question[i].sentence[4] = "あと一つは？";
 
+			for (j = 0; j < 5; j++) {
+				Question[i].enable[j] = true;
+			}
+
 			Question[i].Image_Graphic = LoadGraph("");//問題のイメージ画像を変数に読み込む
 
 			//選択肢
@@ -280,6 +354,10 @@ void init()
 			Question[i].sentence[0] = "次のうち、千葉県での生産量が";
 			Question[i].sentence[1] = "日本一である野菜・農作物はどれ？";
 
+			for (j = 0; j < 2; j++) {
+				Question[i].enable[j] = true;
+			}
+
 			Question[i].Image_Graphic = LoadGraph("落花生.png");//問題のイメージ画像を変数に読み込む
 
 			//選択肢
@@ -301,6 +379,11 @@ void init()
 			//問題文
 			Question[i].sentence[0] = "次のうち、日本で一番";
 			Question[i].sentence[1] = "日の入りが早い場所は？（山頂、離島を除く）";
+
+			for (j = 0; j < 2; j++) {
+				Question[i].enable[j] = true;
+			}
+
 			Question[i].Image_Graphic = LoadGraph("");//問題のイメージ画像を変数に読み込む
 			//選択肢
 			Question[i].choices[0] = "A：犬吠埼";
@@ -321,6 +404,11 @@ void init()
 			Question[i].sentence[0] = "シャチで有名な鴨川シーワールド、";
 			Question[i].sentence[1] = "ではそのマスコットキャラである";
 			Question[i].sentence[2] = "代表取締役社長は？";
+
+			for (j = 0; j < 3; j++) {
+				Question[i].enable[j] = true;
+			}
+
 			Question[i].Image_Graphic = LoadGraph("");//問題のイメージ画像を変数に読み込む
 			//選択肢
 			Question[i].choices[0] = "A：須田 貞則";
@@ -412,57 +500,55 @@ void draw()
 		}
 		if (draw_time >= 3)
 		{
-			DrawFormatString(250, 45, TextColor, "%s", Question[count_question].sentence[0].c_str());
+			if (Question[count_question].enable[0] == true)
+			{
+				DrawFormatString(250, 45, TextColor, "%s", Question[count_question].sentence[0].c_str());
+			}
+			else {
+				select_draw();
+			}
 		}
 		if (draw_time >= 6)
 		{
-			DrawFormatString(250, 80, TextColor, "%s", Question[count_question].sentence[1].c_str());
+			if (Question[count_question].enable[1] == true)
+			{
+				DrawFormatString(250, 80, TextColor, "%s", Question[count_question].sentence[1].c_str());
+			}
+			else {
+				select_draw();
+			}
 		}
 		if (draw_time >= 9)
 		{
-			DrawFormatString(250, 115, TextColor, "%s", Question[count_question].sentence[2].c_str());
+			if (Question[count_question].enable[2] == true)
+			{
+				DrawFormatString(250, 115, TextColor, "%s", Question[count_question].sentence[2].c_str());
+			}
+			else {
+				select_draw();
+			}
 		}
 		if (draw_time >= 12)
 		{
-			DrawFormatString(250, 150, TextColor, "%s", Question[count_question].sentence[3].c_str());
+			if (Question[count_question].enable[3] == true)
+			{
+				DrawFormatString(250, 150, TextColor, "%s", Question[count_question].sentence[3].c_str());
+			}
+			else {
+				select_draw();
+			}
 		}
 		if (draw_time >= 15)
 		{
-			DrawFormatString(250, 150, TextColor, "%s", Question[count_question].sentence[4].c_str());
+			if (Question[count_question].enable[4] == true)
+			{
+				DrawFormatString(250, 185, TextColor, "%s", Question[count_question].sentence[4].c_str());
+			}
+			else {
+				select_draw();
+			}
 		}
-		//選択肢表示
-		if (draw_time >= 16 && select_time > 0)
-		{
-			if (update_count % one_second == 0)
-			{
-				select_time--;
-			}
-			//カーソルを描画
-			if (Select == 'A')
-			{
-				DrawFormatString(60, 450, TextColor, "⇒");
-			}
-			if (Select == 'B')
-			{
-				DrawFormatString(310, 450, TextColor, "⇒");
-			}
-			if (Select == 'C')
-			{
-				DrawFormatString(60, 480, TextColor, "⇒");
-			}
-			if (Select == 'D')
-			{
-				DrawFormatString(310, 480, TextColor, "⇒");
-			}
-			//Aの選択肢
-			DrawFormatString(110, 450, TextColor, "%s", Question[count_question].choices[0].c_str());
-			//Bの選択肢
-			DrawFormatString(360, 450, TextColor, "%s", Question[count_question].choices[1].c_str());
-			//Cの選択肢
-			DrawFormatString(110, 480, TextColor, "%s", Question[count_question].choices[2].c_str());
-			//Dの選択肢
-			DrawFormatString(360, 480, TextColor, "%s", Question[count_question].choices[3].c_str());
-		}
+
 		if (select_time <= 0)
 		{
 			select_time = 10;
