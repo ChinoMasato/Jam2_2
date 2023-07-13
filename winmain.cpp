@@ -209,7 +209,7 @@ void init()
 			//問題文
 			Question[i].sentence[0] = "千葉県の郷土料理「なめろう」の材料";
 			Question[i].sentence[1] = "長ねぎ、しょうが、しそ、味噌、";
-			Question[i].sentence[2] = "あとひとつはどれ？"
+			Question[i].sentence[2] = "あとひとつはどれ？";
 			Question[i].Image_Graphic = LoadGraph("");//問題のイメージ画像を変数に読み込む
 			//選択肢
 			Question[i].choices[0] = "A：サーモン";
