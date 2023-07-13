@@ -105,6 +105,7 @@ int countstop = 0;
 int one_second = 144;
 
 int select_time = 10;
+bool count_down_select_time = false;
 
 //問題文を段落ごとに時間差で描画するときに使う
 int draw_time = 0;
@@ -112,42 +113,40 @@ int draw_time = 0;
 int score = 0;
 int before_score = 0;
 int combo = 0;
+int max_combo = 0;
 
 //正解しているか
 bool correct = true;
+int correct_num = 0;
 
 void select_draw()
 {
 	//選択肢表示
 	if (select_time > 0)
 	{
-		if (update_count % one_second == 0)
-		{
-			select_time--;
-		}
 		//カーソルを描画
 		if (Select == 'A')
 		{
-			DrawFormatString(60, 450, TextColor, "⇒");
+			DrawFormatString(10, 450, TextColor, "⇒");
 		}
 		if (Select == 'B')
 		{
-			DrawFormatString(310, 450, TextColor, "⇒");
+			DrawFormatString(320, 450, TextColor, "⇒");
 		}
 		if (Select == 'C')
 		{
-			DrawFormatString(60, 480, TextColor, "⇒");
+			DrawFormatString(10, 480, TextColor, "⇒");
 		}
 		if (Select == 'D')
 		{
-			DrawFormatString(310, 480, TextColor, "⇒");
+			DrawFormatString(320, 480, TextColor, "⇒");
 		}
 		//Aの選択肢
-		DrawFormatString(110, 450, TextColor, "%s", Question[count_question].choices[0].c_str());
+		DrawFormatString(40, 450, TextColor, "%s", Question[count_question].choices[0].c_str());
 		//Bの選択肢
 		DrawFormatString(360, 450, TextColor, "%s", Question[count_question].choices[1].c_str());
 		//Cの選択肢
-		DrawFormatString(110, 480, TextColor, "%s", Question[count_question].choices[2].c_str());
+		DrawFormatString(40, 480, TextColor, "%s", Question[count_question].choices[2].c_str());
 		//Dの選択肢
 		DrawFormatString(360, 480, TextColor, "%s", Question[count_question].choices[3].c_str());
 	}
@@ -229,7 +228,7 @@ void init()
 				Question[i].enable[j] = true;
 			}
 
-			Question[i].Image_Graphic = LoadGraph("");//問題のイメージ画像を変数に読み込む
+			Question[i].Image_Graphic = LoadGraph("map_japan.png");//問題のイメージ画像を変数に読み込む
 			//選択肢
 			Question[i].choices[0] = "A：日本地図";
 			Question[i].choices[1] = "B：醤油";
@@ -252,7 +251,7 @@ void init()
 				Question[i].enable[j] = true;
 			}
 
-			Question[i].Image_Graphic = LoadGraph("");//問題のイメージ画像を変数に読み込む
+			Question[i].Image_Graphic = LoadGraph("soy_source.png");//問題のイメージ画像を変数に読み込む
 			//選択肢
 			Question[i].choices[0] = "A：「深い味わいを。」";
 			Question[i].choices[1] = "B：「おいしい記憶をつくりたい。」";
@@ -303,7 +302,7 @@ void init()
 				Question[i].enable[j] = true;
 			}
 
-			Question[i].Image_Graphic = LoadGraph("");//問題のイメージ画像を変数に読み込む
+			Question[i].Image_Graphic = LoadGraph("daikon.png");//問題のイメージ画像を変数に読み込む
 
 			//選択肢
 			Question[i].choices[0] = "A：いちじく";
@@ -332,7 +331,7 @@ void init()
 				Question[i].enable[j] = true;
 			}
 
-			Question[i].Image_Graphic = LoadGraph("");//問題のイメージ画像を変数に読み込む
+			Question[i].Image_Graphic = LoadGraph("temple.png");//問題のイメージ画像を変数に読み込む
 
 			//選択肢
 			Question[i].choices[0] = "A：龍頭寺";
@@ -385,7 +384,7 @@ void init()
 				Question[i].enable[j] = true;
 			}
 
-			Question[i].Image_Graphic = LoadGraph("");//問題のイメージ画像を変数に読み込む
+			Question[i].Image_Graphic = LoadGraph("inubosaki.png");//問題のイメージ画像を変数に読み込む
 			//選択肢
 			Question[i].choices[0] = "A：犬吠埼";
 			Question[i].choices[1] = "B：御宿海岸";
@@ -396,7 +395,8 @@ void init()
 			//問題の解説
 			Question[i].tips[0] = "千葉県の東部に位置する銚子市犬吠埼は";
 			Question[i].tips[1] = "日本一日の入りが早く、年末には";
-			Question[i].tips[2] = "他県から人が多く寄せ付けます（午前６時４６分ごろ）";
+			Question[i].tips[2] = "他県から人が多く寄せ付けます";
+			Question[i].tips[3] = "（午前６時４６分ごろ）";
 		}
 		//10問目
 		if (Question[i].num == 9)
@@ -410,7 +410,7 @@ void init()
 				Question[i].enable[j] = true;
 			}
 
-			Question[i].Image_Graphic = LoadGraph("");//問題のイメージ画像を変数に読み込む
+			Question[i].Image_Graphic = LoadGraph("kamogawa_seaworld.png");//問題のイメージ画像を変数に読み込む
 			//選択肢
 			Question[i].choices[0] = "A：須田 貞則";
 			Question[i].choices[1] = "B：竹井 透";
@@ -419,8 +419,9 @@ void init()
 			//正解（A、B、C、Dのどれかを入力）
 			Question[i].answer = 'A';
 			//問題の解説
-			Question[i].tips[0] = "株式会社グランビスタ ホテル＆リゾート. 代表取締役社長";
-			Question[i].tips[1] = "館長はみんなご存じ勝俣浩";
+			Question[i].tips[0] = "株式会社グランビスタ";
+			Question[i].tips[1] = "ホテル＆リゾート. 代表取締役社長";
+			Question[i].tips[2] = "館長はみんなご存じ勝俣浩";
 		}
 	}
 }
@@ -449,6 +450,11 @@ void draw()
 		{
 			before_score = 15 + combo * 5 + select_time * 2;
 			combo++;
+			if (combo > max_combo)
+			{
+				max_combo = combo;
+			}
+			correct_num++;
 		}
 		if (Page == PageTIPS && correct == true)
 		{
@@ -492,7 +498,12 @@ void draw()
 	if (Page == PageQ)
 	{
 		//問題のイメージ画像を描画
-		DrawGraph(0, 80, Question[count_question].Image_Graphic, true);
+		if (Question[count_question].num == 3 || Question[count_question].num == 4
+			|| Question[count_question].num == 6 || Question[count_question].num == 8
+			|| Question[count_question].num == 9)
+		{
+			DrawGraph(0, 80, Question[count_question].Image_Graphic, true);
+		}
 		DrawFormatString(0, 10, TextColor, "スコア %d 点", score);
 		DrawFormatString(0, 45, TextColor, "制限時間 %d 秒", select_time);
 		if (draw_time >= 0)
@@ -507,6 +518,7 @@ void draw()
 			}
 			else {
 				select_draw();
+				count_down_select_time = true;
 			}
 		}
 		if (draw_time >= 4)
@@ -517,6 +529,7 @@ void draw()
 			}
 			else {
 				select_draw();
+				count_down_select_time = true;
 			}
 		}
 		if (draw_time >= 6)
@@ -527,6 +540,7 @@ void draw()
 			}
 			else {
 				select_draw();
+				count_down_select_time = true;
 			}
 		}
 		if (draw_time >= 8)
@@ -537,6 +551,7 @@ void draw()
 			}
 			else {
 				select_draw();
+				count_down_select_time = true;
 			}
 		}
 		if (draw_time >= 10)
@@ -547,6 +562,26 @@ void draw()
 			}
 			else {
 				select_draw();
+				count_down_select_time = true;
+			}
+		}
+		if (draw_time >= 12)
+		{
+			if (Question[count_question].enable[5] == true)
+			{
+				DrawFormatString(250, 220, TextColor, "%s", Question[count_question].sentence[5].c_str());
+			}
+			else {
+				select_draw();
+				count_down_select_time = true;
+			}
+		}
+
+		if (count_down_select_time == true)
+		{
+			if (update_count % one_second == 0)
+			{
+				select_time--;
 			}
 		}
 
@@ -637,9 +672,17 @@ void draw()
 		{
 			DrawFormatString(250, 10, TextColor, "成績発表！");
 		}
-		if (draw_time >= 2)
+		if (draw_time >= 1)
 		{
 			DrawFormatString(250, 45, TextColor, "あなたのスコアは... %d 点！", score);
+		}
+		if (draw_time >= 2)
+		{
+			DrawFormatString(250, 80, TextColor, "正解数 %d / 10問！", correct_num);
+		}
+		if (draw_time >= 3)
+		{
+			DrawFormatString(250, 115, TextColor, "最大連続正解数 %d 問！", max_combo);
 		}
 	}
 }
@@ -687,7 +730,7 @@ void Update()
 	timer();
 
 	//デバッグ用
-	DrawFormatString(550, 100, TextColor, "描画時間%d", draw_time);
+	//DrawFormatString(550, 100, TextColor, "描画時間%d", draw_time);
 
 	//キーを押してページをめくる処理
 	//エンターキー(KEY_INPUT_RETURN)が押されたらページを進める
@@ -828,6 +871,7 @@ void Update()
 	if (Page == PageSYSTEM || Page == PageSYSTEM_2 || Page == PageSYSTEM_3)
 	{
 		countstop = 0;
+		count_down_select_time = false;
 		Page++;
 	}
 	//5ページ目の処理
@@ -854,13 +898,13 @@ void Update()
 	//7ページ目の処理
 	if (Page == PageNULL)
 	{
-		if (count_question < Question_No)
+		if (count_question < Question_No - 1)
 		{
 			countstop = 0;
 			count_question++;
 			Page = PageQ;
 		}
-		if (count_question >= Question_No)
+		if (count_question >= Question_No - 1)
 		{
 			Page++;
 		}
