@@ -133,6 +133,7 @@ int incorrect_SE;
 
 //メッセージウィンドウ
 int mes_img;
+int mes_2_img;
 
 //背景
 int haikei_img;
@@ -145,7 +146,7 @@ void select_draw()
 	//選択肢表示
 	if (select_time > 0)
 	{
-		DrawGraph(-70, 310, mes_img, true);
+		DrawGraph(-200, 150, mes_img, true);
 		//カーソルを描画
 		if (Select == 'A')
 		{
@@ -163,7 +164,6 @@ void select_draw()
 		{
 			DrawFormatString(320, 480, TextColor, "⇒");
 		}
-		
 		//Aの選択肢
 		DrawFormatString(40, 450, TextColor, "%s", Question[count_question].choices[0].c_str());
 		//Bの選択肢
@@ -173,7 +173,7 @@ void select_draw()
 		//Dの選択肢
 		DrawFormatString(360, 480, TextColor, "%s", Question[count_question].choices[3].c_str());
 		//SetDrawBlendMode(DX_BLENDMODE_ALPHA, 50);
-		
+
 		//SetDrawBlendMode(DX_BLENDMODE_NOBLEND, 0);
 	}
 }
@@ -189,7 +189,11 @@ void init()
 	incorrect_SE = LoadSoundMem("クイズ不正解1.mp3");
 
 	//メッセージウィンドウ
-	mes_img = LoadGraph("newwindou.png");
+	mes_img = LoadGraph("windou.png");
+	mes_2_img = LoadGraph("windou.png");
+
+	//タイトル
+	Title_Graphic = LoadGraph("logo.png");
 
 	//背景
 	haikei_img = LoadGraph("chiba.jpg");
@@ -197,7 +201,7 @@ void init()
 
 	for (i = 0; i < Question_No; i++) {
 		Question[i].num = { i };
-		for (j = 0; j < 7; j++){
+		for (j = 0; j < 7; j++) {
 			Question[i].enable[j] = false;
 		}
 	}
@@ -222,7 +226,7 @@ void init()
 			Question[i].choices[1] = "B：豊水";
 			Question[i].choices[2] = "C：メロン";
 			Question[i].choices[3] = "D：秋満月";
-			
+
 
 			//正解（A、B、C、Dのどれかを入力）
 			Question[i].answer = 'A';
@@ -302,7 +306,7 @@ void init()
 			//正解（A、B、C、Dのどれかを入力）
 			Question[i].answer = 'B';
 			//問題の解説
-			Question[i].tips[0] = "「おいしい記憶をつくりたい。」"; 
+			Question[i].tips[0] = "「おいしい記憶をつくりたい。」";
 			Question[i].tips[1] = "このスローガンは日本国内向けで、";
 			Question[i].tips[2] = "世界では「seasoning your life」";
 			Question[i].tips[3] = "を用いています。";
@@ -559,6 +563,7 @@ void draw()
 	if (Page == PageEXPLAIN)
 	{
 		DrawGraph(0, 100, haikei_img, true);
+		DrawGraph(100, -240, mes_2_img, true);
 		if (draw_time >= 0)
 		{
 			DrawFormatString(250, 10, TextColor, "千葉県クイズ！");
@@ -587,6 +592,7 @@ void draw()
 	if (Page == PageQ)
 	{
 		DrawGraph(0, 100, haikei_img, true);
+		DrawGraph(100, -240, mes_2_img, true);
 
 		//問題のイメージ画像を描画
 		if (Question[count_question].num == 3 || Question[count_question].num == 4
@@ -594,7 +600,7 @@ void draw()
 			|| Question[count_question].num == 9)
 		{
 			DrawGraph(0, 80, Question[count_question].Image_Graphic, true);
-			
+
 		}
 		DrawFormatString(0, 10, TextColor, "スコア %d 点", score);
 		DrawFormatString(0, 45, TextColor, "制限時間 %d 秒", select_time);
@@ -685,12 +691,13 @@ void draw()
 			select_time = 10;
 			Page++;
 		}
-		
+
 	}
 	//正解か、不正解かを表示
 	if (Page == PageA)
 	{
 		DrawGraph(0, 100, haikei_img, true);
+		DrawGraph(100, -240, mes_2_img, true);
 		DrawFormatString(0, 10, TextColor, "スコア %d 点", score);
 		DrawFormatString(0, 45, TextColor, "制限時間 %d 秒", select_time);
 		if (combo >= 2)
@@ -704,6 +711,7 @@ void draw()
 			DrawFormatString(250, 45, TextColor, "スコア %d 点獲得！", before_score);
 			if (countstop_4 == 0)
 			{
+				StopMusic();
 				PlaySoundMem(correct_SE, DX_PLAYTYPE_BACK);
 				countstop_4 = 1;
 			}
@@ -714,6 +722,7 @@ void draw()
 			DrawFormatString(250, 10, TextColor, "不正解！");
 			if (countstop_4 == 0)
 			{
+				StopMusic();
 				PlaySoundMem(incorrect_SE, DX_PLAYTYPE_BACK);
 				countstop_4 = 1;
 			}
@@ -724,6 +733,7 @@ void draw()
 	{
 		//問題のイメージ画像を描画
 		DrawGraph(0, 100, haikei_img, true);
+		DrawGraph(100, -240, mes_2_img, true);
 		DrawGraph(0, 80, Question[count_question].Image_Graphic, true);
 		DrawFormatString(0, 10, TextColor, "スコア %d 点", score);
 		DrawFormatString(250, 10, TextColor, "正解は");
@@ -777,6 +787,7 @@ void draw()
 	if (Page == PageRESULT)
 	{
 		DrawGraph(0, 100, haikei_img, true);
+		DrawGraph(100, -240, mes_2_img, true);
 		if (draw_time >= 0)
 		{
 			DrawFormatString(250, 10, TextColor, "成績発表！");
@@ -827,7 +838,9 @@ void Start()
 	SetFontSize(25);
 
 	//NameColor = GetColor(255, 255, 255);//名前は白で書く
-	TextColor = GetColor(170, 170, 0);//文字は白で書く
+	TextColor = GetColor(157, 204, 224);//文字は水色で書く
+	//TextColor = GetColor(255, 0, 0);//文字は赤で書く
+	//TextColor = GetColor(255, 255, 0);//文字は黄色で書く
 
 	//BGM再生
 	//PlayMusic("bgm_maoudamashii_neorock71b.mp3", DX_PLAYTYPE_LOOP);
@@ -952,9 +965,10 @@ void Update()
 	{
 		// 画面に背景を描画します。
 		//DrawGraph(0, 0, Title_Graphic, true);
-
+		DrawGraph(10, 0, Title_Graphic, true);
 		if (BlinkCounter / 20 % 2 == 0) {
-			DrawFormatString(300, 300, TextColor, "PUSH ENTER");
+
+			DrawFormatString(310, 450, TextColor, "PUSH ENTER");
 			//DrawStringToHandle(300, 10, "PUSH ENTER", TextColor, FontHandle[0]);
 		}
 		BlinkCounter = BlinkCounter + 1;
@@ -1076,4 +1090,3 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 
 	return 0;				// ソフトの終了 
 }
-
