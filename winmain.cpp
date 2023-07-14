@@ -106,7 +106,7 @@ int countstop_2 = 0;
 int countstop_3 = 0;
 int countstop_4 = 0;
 
-int one_second = 80;//144が最適か（学校のPCの場合）
+int one_second = 144;//144が最適か（学校のPCの場合）
 
 int select_time = 10;
 bool count_down_select_time = false;
