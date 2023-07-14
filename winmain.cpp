@@ -484,7 +484,7 @@ void draw()
 		draw_time = 0;
 		if (Page == PageTITLE || Page == PageEXPLAIN)
 		{
-			PlayMusic("quiz_tilte.mp3", DX_PLAYTYPE_LOOP);
+			PlayMusic("quiz_title.mp3", DX_PLAYTYPE_LOOP);
 		}
 		if (Page == PageQ)
 		{
