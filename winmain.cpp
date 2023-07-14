@@ -131,6 +131,9 @@ int question_SE;
 int correct_SE;
 int incorrect_SE;
 
+//メッセージウィンドウ
+int mes_img;
+
 //int SE_loop = 0;
 // SE_loop_2 = 0;
 
@@ -164,6 +167,9 @@ void select_draw()
 		DrawFormatString(40, 480, TextColor, "%s", Question[count_question].choices[2].c_str());
 		//Dの選択肢
 		DrawFormatString(360, 480, TextColor, "%s", Question[count_question].choices[3].c_str());
+		SetDrawBlendMode(DX_BLENDMODE_ALPHA, 100);
+		DrawGraph(-120, 100, mes_img, true);
+		SetDrawBlendMode(DX_BLENDMODE_NOBLEND, 0);
 	}
 }
 
@@ -176,6 +182,10 @@ void init()
 	question_SE = LoadSoundMem("クイズ出題1.mp3");
 	correct_SE = LoadSoundMem("クイズ正解1.mp3");
 	incorrect_SE = LoadSoundMem("クイズ不正解1.mp3");
+
+	//メッセージウィンドウ
+	mes_img = LoadGraph("windou.png");
+
 
 	for (i = 0; i < Question_No; i++) {
 		Question[i].num = { i };
@@ -204,6 +214,7 @@ void init()
 			Question[i].choices[1] = "B：豊水";
 			Question[i].choices[2] = "C：メロン";
 			Question[i].choices[3] = "D：秋満月";
+			
 
 			//正解（A、B、C、Dのどれかを入力）
 			Question[i].answer = 'A';
@@ -469,6 +480,7 @@ void draw()
 		{
 			select_time = 10;
 			PlaySoundMem(question_SE, DX_PLAYTYPE_BACK);
+			
 		}
 		if (Page == PageA && correct == true)
 		{
@@ -563,6 +575,7 @@ void draw()
 			|| Question[count_question].num == 9)
 		{
 			DrawGraph(0, 80, Question[count_question].Image_Graphic, true);
+			
 		}
 		DrawFormatString(0, 10, TextColor, "スコア %d 点", score);
 		DrawFormatString(0, 45, TextColor, "制限時間 %d 秒", select_time);
@@ -575,6 +588,7 @@ void draw()
 			if (Question[count_question].enable[0] == true)
 			{
 				DrawFormatString(250, 45, TextColor, "%s", Question[count_question].sentence[0].c_str());
+
 			}
 			else {
 				select_draw();
@@ -632,7 +646,9 @@ void draw()
 				DrawFormatString(250, 220, TextColor, "%s", Question[count_question].sentence[5].c_str());
 			}
 			else {
+
 				select_draw();
+
 				count_down_select_time = true;
 			}
 		}
