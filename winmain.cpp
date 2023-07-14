@@ -170,8 +170,8 @@ void select_draw()
 		DrawFormatString(40, 480, TextColor, "%s", Question[count_question].choices[2].c_str());
 		//Dの選択肢
 		DrawFormatString(360, 480, TextColor, "%s", Question[count_question].choices[3].c_str());
-		SetDrawBlendMode(DX_BLENDMODE_ALPHA, 100);
-		DrawGraph(-120, 100, mes_img, true);
+		SetDrawBlendMode(DX_BLENDMODE_ALPHA, 50);
+		DrawGraph(-70, 310, mes_img, true);
 		SetDrawBlendMode(DX_BLENDMODE_NOBLEND, 0);
 	}
 }
@@ -187,7 +187,7 @@ void init()
 	incorrect_SE = LoadSoundMem("クイズ不正解1.mp3");
 
 	//メッセージウィンドウ
-	mes_img = LoadGraph("windou.png");
+	mes_img = LoadGraph("newwindou.png");
 
 	//背景
 	haikei_img = LoadGraph("chiba.jpg");
@@ -825,7 +825,7 @@ void Start()
 	SetFontSize(25);
 
 	//NameColor = GetColor(255, 255, 255);//名前は白で書く
-	TextColor = GetColor(255, 255, 255);//文字は白で書く
+	TextColor = GetColor(170, 170, 0);//文字は白で書く
 
 	//BGM再生
 	//PlayMusic("bgm_maoudamashii_neorock71b.mp3", DX_PLAYTYPE_LOOP);
