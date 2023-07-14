@@ -145,6 +145,7 @@ void select_draw()
 	//選択肢表示
 	if (select_time > 0)
 	{
+		DrawGraph(-70, 310, mes_img, true);
 		//カーソルを描画
 		if (Select == 'A')
 		{
@@ -162,7 +163,7 @@ void select_draw()
 		{
 			DrawFormatString(320, 480, TextColor, "⇒");
 		}
-		DrawGraph(-70, 310, mes_img, true);
+		
 		//Aの選択肢
 		DrawFormatString(40, 450, TextColor, "%s", Question[count_question].choices[0].c_str());
 		//Bの選択肢
