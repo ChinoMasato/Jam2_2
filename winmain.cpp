@@ -826,7 +826,7 @@ void Start()
 	//FontHandle[1] = CreateFontToHandle(NULL, 40, 3);
 
 	Back_Graphic = LoadGraph("back_test_02.jpg");//学校画像を変数に読み込む
-	Title_Graphic = LoadGraph("title.jpg");//タイトル画像を変数に読み込む
+	Title_Graphic = LoadGraph("logo.png");//タイトル画像を変数に読み込む
 	End_Graphic = LoadGraph("end.png");//タイトル画像を変数に読み込む
 	Message_Graphic = LoadGraph("message_window_test.png");//メッセージウィンドウ用画像を変数に読み込む
 
