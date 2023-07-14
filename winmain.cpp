@@ -476,11 +476,15 @@ void draw()
 	if (countstop == 0)
 	{
 		draw_time = 0;
+		if (Page == PageTITLE || Page == PageEXPLAIN)
+		{
+			PlayMusic("quiz_tilte.mp3", DX_PLAYTYPE_LOOP);
+		}
 		if (Page == PageQ)
 		{
 			select_time = 10;
+			PlayMusic("quiz_question.mp3", DX_PLAYTYPE_LOOP);
 			PlaySoundMem(question_SE, DX_PLAYTYPE_BACK);
-			
 		}
 		if (Page == PageA && correct == true)
 		{
@@ -495,6 +499,10 @@ void draw()
 		if (Page == PageTIPS && correct == true)
 		{
 			score += before_score;
+		}
+		if (Page == PageRESULT)
+		{
+			PlayMusic("quiz_correct.mp3", DX_PLAYTYPE_BACK);
 		}
 		countstop = 1;
 	}
@@ -935,6 +943,7 @@ void Update()
 			//DrawStringToHandle(300, 10, "PUSH ENTER", TextColor, FontHandle[0]);
 		}
 		BlinkCounter = BlinkCounter + 1;
+		draw();
 	}
 
 	//1ページ目の場合の処理
@@ -1000,6 +1009,7 @@ void Update()
 		}
 		if (count_question >= Question_No - 1)
 		{
+			countstop = 0;
 			Page++;
 		}
 	}
