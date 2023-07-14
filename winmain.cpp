@@ -134,6 +134,9 @@ int incorrect_SE;
 //メッセージウィンドウ
 int mes_img;
 
+//背景
+int haikei_img;
+
 //int SE_loop = 0;
 // SE_loop_2 = 0;
 
@@ -185,6 +188,9 @@ void init()
 
 	//メッセージウィンドウ
 	mes_img = LoadGraph("windou.png");
+
+	//背景
+	haikei_img = LoadGraph("chiba.jpg");
 
 
 	for (i = 0; i < Question_No; i++) {
@@ -542,6 +548,7 @@ void draw()
 	//ゲーム説明
 	if (Page == PageEXPLAIN)
 	{
+		DrawGraph(0, 100, haikei_img, true);
 		if (draw_time >= 0)
 		{
 			DrawFormatString(250, 10, TextColor, "千葉県クイズ！");
@@ -569,6 +576,8 @@ void draw()
 	//問題文を描画する
 	if (Page == PageQ)
 	{
+		DrawGraph(0, 100, haikei_img, true);
+
 		//問題のイメージ画像を描画
 		if (Question[count_question].num == 3 || Question[count_question].num == 4
 			|| Question[count_question].num == 6 || Question[count_question].num == 8
@@ -666,10 +675,12 @@ void draw()
 			select_time = 10;
 			Page++;
 		}
+		
 	}
 	//正解か、不正解かを表示
 	if (Page == PageA)
 	{
+		DrawGraph(0, 100, haikei_img, true);
 		DrawFormatString(0, 10, TextColor, "スコア %d 点", score);
 		DrawFormatString(0, 45, TextColor, "制限時間 %d 秒", select_time);
 		if (combo >= 2)
@@ -702,6 +713,7 @@ void draw()
 	if (Page == PageTIPS)
 	{
 		//問題のイメージ画像を描画
+		DrawGraph(0, 100, haikei_img, true);
 		DrawGraph(0, 80, Question[count_question].Image_Graphic, true);
 		DrawFormatString(0, 10, TextColor, "スコア %d 点", score);
 		DrawFormatString(250, 10, TextColor, "正解は");
@@ -754,6 +766,7 @@ void draw()
 	//結果発表～！
 	if (Page == PageRESULT)
 	{
+		DrawGraph(0, 100, haikei_img, true);
 		if (draw_time >= 0)
 		{
 			DrawFormatString(250, 10, TextColor, "成績発表！");
