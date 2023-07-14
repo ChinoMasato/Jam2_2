@@ -162,6 +162,7 @@ void select_draw()
 		{
 			DrawFormatString(320, 480, TextColor, "⇒");
 		}
+		DrawGraph(-70, 310, mes_img, true);
 		//Aの選択肢
 		DrawFormatString(40, 450, TextColor, "%s", Question[count_question].choices[0].c_str());
 		//Bの選択肢
@@ -170,9 +171,9 @@ void select_draw()
 		DrawFormatString(40, 480, TextColor, "%s", Question[count_question].choices[2].c_str());
 		//Dの選択肢
 		DrawFormatString(360, 480, TextColor, "%s", Question[count_question].choices[3].c_str());
-		SetDrawBlendMode(DX_BLENDMODE_ALPHA, 50);
-		DrawGraph(-70, 310, mes_img, true);
-		SetDrawBlendMode(DX_BLENDMODE_NOBLEND, 0);
+		//SetDrawBlendMode(DX_BLENDMODE_ALPHA, 50);
+		
+		//SetDrawBlendMode(DX_BLENDMODE_NOBLEND, 0);
 	}
 }
 
